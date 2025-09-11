@@ -1,4 +1,5 @@
-# NeuralPulse - AI Blog
+# Codetherapy
 
 CodeTherapy website Codebasse
+
 
