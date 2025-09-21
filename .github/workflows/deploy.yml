@@ -81,7 +81,6 @@ jobs:
           --name ${{ env.CONTAINER_NAME }} \
           --restart unless-stopped \
           -p 3000:3000 \
-          --env-file .env.production \
           ${{ env.IMAGE_NAME }}:latest
 
     - name: Health check
