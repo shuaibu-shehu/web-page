@@ -116,3 +116,4 @@ jobs:
         echo "Image: ${{ env.IMAGE_NAME }}:${{ github.sha }}"
         echo "Commit: ${{ github.sha }}"
         docker ps -f name=${{ env.CONTAINER_NAME }}
+
