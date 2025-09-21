@@ -1,31 +1,102 @@
-name: Deploy to GitHub Pages
+name: Deploy Next.js App (Advanced)
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: [ main, master ]
+  workflow_dispatch: # Allow manual triggering
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  test:
+    runs-on: self-hosted
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm ci
-      - name: Build with Next.js
-        run: npm run build
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: out
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm test -- --passWithNoTests
+
+    - name: Run linting
+      run: npm run lint
+      continue-on-error: true
+
+  deploy:
+    needs: test
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Create environment file
+      run: |
+        echo "NODE_ENV=production" > .env.production
+        echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env.production
+        echo "API_KEY=${{ secrets.API_KEY }}" >> .env.production
+      if: ${{ env.DATABASE_URL != '' || env.API_KEY != '' }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ env.IMAGE_NAME }}:latest .
+        docker tag ${{ env.IMAGE_NAME }}:latest ${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+    - name: Stop and remove existing container
+      run: |
+        if [ $(docker ps -q -f name=${{ env.CONTAINER_NAME }}) ]; then
+          echo "Stopping existing container..."
+          docker stop ${{ env.CONTAINER_NAME }}
+          docker rm ${{ env.CONTAINER_NAME }}
+        fi
+      continue-on-error: true
+
+    - name: Deploy new container
+      run: |
+        docker run -d \
+          --name ${{ env.CONTAINER_NAME }} \
+          --restart unless-stopped \
+          -p 3000:3000 \
+          --env-file .env.production \
+          ${{ env.IMAGE_NAME }}:latest
+
+    - name: Health check
+      run: |
+        echo "Waiting for application to start..."
+        for i in {1..30}; do
+          if curl -f http://localhost:3000 > /dev/null 2>&1; then
+            echo "✅ Application is healthy and responding"
+            break
+          fi
+          echo "Waiting... ($i/30)"
+          sleep 10
+        done
+        
+        if ! curl -f http://localhost:3000 > /dev/null 2>&1; then
+          echo "❌ Health check failed"
+          docker logs ${{ env.CONTAINER_NAME }}
+          exit 1
+        fi
+
+    - name: Clean up old images
+      run: |
+        # Keep only the 3 most recent images
+        docker images ${{ env.IMAGE_NAME }} --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}" | \
+        tail -n +2 | sort -k2 -r | tail -n +4 | awk '{print $1}' | \
+        xargs -r docker rmi || true
+
+    - name: Send deployment notification
+      run: |
+        echo "🚀 Deployment completed successfully!"
+        echo "Container: ${{ env.CONTAINER_NAME }}"
+        echo "Image: ${{ env.IMAGE_NAME }}:${{ github.sha }}"
+        echo "Commit: ${{ github.sha }}"
+        docker ps -f name=${{ env.CONTAINER_NAME }}
