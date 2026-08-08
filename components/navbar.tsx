@@ -27,7 +27,7 @@ import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMe
 import { MobileNavbar } from "./mobile-navbar"
 import { ContactForm } from "./contact-form"
 
-interface NavbarProps { 
+interface NavbarProps {
     newsletterRef?: React.RefObject<HTMLElement>,
     scrollToNewsletter?: () => void
 }
@@ -35,27 +35,29 @@ export default function Navbar({
     newsletterRef,
     scrollToNewsletter
 }: NavbarProps) {
-        
+
     return (
         <motion.nav
             initial={{ y: -100 }}
             animate={{ y: 0 }}
-            className="sticky top-0 z-[99] flex items-center justify-between px-6 py-4 border-b border-white/10 bg-background/80 backdrop-blur-3xl"
+            className="sticky top-0 z-[99] flex items-center justify-between px-6 py-4 glass border-b border-white/10"
         >
             <Link href="/" className="flex items-center space-x-2">
-                {/* <Bot className="w-8 h-8 text-blue-500" /> */}
-                <span className="text-xl font-medium text-white">Code<span className="text-blue-500">Therapy</span></span>
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
+                    <Bot className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-xl font-semibold text-white">Code<span className="gradient-text">Therapy</span></span>
             </Link>
 
-       
 
-             <div className="items-center hidden space-x-8 md:flex">
-    <Menubar className="items-center hidden space-x-8 bg-transparent border-none md:flex">
 
-        <NavLink href="/projects/">Projects</NavLink>
-        <NavLink href="/partnerships/">Partnerships</NavLink>
-        <NavLink href="/about/">About</NavLink>
-        {/* <MenubarMenu>
+            <div className="items-center hidden space-x-8 md:flex">
+                <Menubar className="items-center hidden space-x-8 bg-transparent border-none md:flex">
+
+                    <NavLink href="/projects/">Projects</NavLink>
+                    <NavLink href="/partnerships/">Partnerships</NavLink>
+                    <NavLink href="/about/">About</NavLink>
+                    {/* <MenubarMenu>
             <MenubarTrigger>
                 <NavLink>About</NavLink>
             </MenubarTrigger>
@@ -68,27 +70,26 @@ export default function Navbar({
                 </MenubarItem>
             </MenubarContent>
         </MenubarMenu> */}
-     </Menubar >
-     </div >
+                </Menubar >
+            </div >
             <div className="items-center hidden space-x-4 md:flex">
                 {/* <Button variant="ghost" className="text-white hover:text-purple-400">
                     Sign In
                 </Button>
                 <Button className="text-white bg-blue-800 hover:bg-blue-700">Get Started</Button> */}
                 <ContactForm>
-                <Button
-                    variant="outline"
-                    className="text-blue-500 border-blue-500 hover:bg-blue-950 hover:text-white"
-                    onClick={scrollToNewsletter}
-                >
-                    Partner with us
-                </Button>
+                    <Button
+                        className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/25"
+                        onClick={scrollToNewsletter}
+                    >
+                        Partner with us
+                    </Button>
                 </ContactForm>
             </div>
-            <MobileNavbar>  
-            <Button variant="ghost" size="icon" className="text-white md:hidden">
-                <Menu className="w-6 h-6" />
-            </Button>
+            <MobileNavbar>
+                <Button variant="ghost" size="icon" className="text-white md:hidden">
+                    <Menu className="w-6 h-6" />
+                </Button>
             </MobileNavbar>
         </motion.nav>
     )
@@ -96,10 +97,10 @@ export default function Navbar({
 
 export function NavLink({ href, children, className }: { href?: string; children: React.ReactNode, className?: string }) {
     if (href) {
-      return  (
+        return (
             <Link href={href} className={cn("relative text-gray-300 transition-colors hover:text-white group", className)} >
                 {children}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-custome  transition-all group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all group-hover:w-full" />
             </Link>
         )
     }
@@ -107,7 +108,7 @@ export function NavLink({ href, children, className }: { href?: string; children
     return (
         <span className={cn("relative text-gray-300 transition-colors hover:text-white group", className)}>
             {children}
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-custome transition-all group-hover:w-full" />
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all group-hover:w-full" />
         </span>
     )
 }
@@ -160,6 +161,6 @@ export function NavLink({ href, children, className }: { href?: string; children
 //         </ul>
 //     </NavigationMenuContent>
 // </NavigationMenuItem>
-//                   </NavigationMenuList >   
+//                   </NavigationMenuList >
 //                 </NavigationMenu >
 //             </div > */}

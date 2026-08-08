@@ -3,30 +3,65 @@
 @tailwind utilities;
 
 :root {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --card: 240 10% 3.9%;
+  --background: 220 20% 8%;
+  --foreground: 0 0% 98%;
+  --card: 220 15% 10%;
   --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
+  --popover: 220 15% 10%;
   --popover-foreground: 0 0% 98%;
-  --primary: 267 100% 61%;
+  --primary: 210 100% 50%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 240 3.7% 15.9%;
+  --secondary: 220 15% 15%;
   --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
+  --muted: 220 15% 15%;
+  --muted-foreground: 220 10% 65%;
+  --accent: 180 100% 40%;
+  --accent-foreground: 0 0% 100%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 267 100% 61%;
+  --border: 220 15% 18%;
+  --input: 220 15% 18%;
+  --ring: 210 100% 50%;
+  --medical-blue: 200 100% 45%;
+  --tech-cyan: 180 100% 50%;
+  --health-green: 150 80% 40%;
 }
 
 body {
-  background-color: black;
-  color: white;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+.glass {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(var(--medical-blue)) 0%, hsl(var(--tech-cyan)) 50%, hsl(var(--health-green)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-effect {
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.15), 0 0 80px rgba(56, 189, 248, 0.05);
 }
 
 

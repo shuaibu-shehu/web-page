@@ -100,12 +100,15 @@ export default function ArticlesPage() {
   }
 
   return (
-    <div className="min-h-screen text-white bg-black">
-      
-      <Navbar/>
+    <div className="min-h-screen text-white bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+
+      <Navbar />
       <main className="container px-4 py-12 mx-auto">
         <section className="mb-12">
-          <h1 className="mb-8 text-4xl font-bold">All Articles</h1>
+          <div className="mb-8">
+            <h1 className="mb-4 text-4xl font-bold">Research & Articles</h1>
+            <p className="text-xl text-gray-300">Explore our latest research in AI healthcare innovation</p>
+          </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {articles.map((article, index) => (
@@ -123,7 +126,7 @@ export default function ArticlesPage() {
         </section>
       </main>
 
-      <Footer/>
+      <Footer />
     </div>
   )
 }
@@ -141,17 +144,18 @@ function ArticleCard({ title, description, category, date, slug = "", image }: A
   return (
     <Link href={`/blog/${slug}/`} className="group">
       <div className="space-y-3">
-        <div className="relative h-48 overflow-hidden transition-colors border border-gray-800 rounded-lg group-hover:border-purple-500/50">
-          <Image src={image || "/placeholder.svg"} alt={`${title} thumbnail`} fill className="object-cover" />
+        <div className="relative h-48 overflow-hidden rounded-xl glass-card group-hover:shadow-xl group-hover:shadow-blue-500/10 transition-all duration-300">
+          <Image src={image || "/placeholder.svg"} alt={`${title} thumbnail`} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
         </div>
         <div>
-          <div className="flex items-center gap-2 mb-2 text-xs text-purple-500">
+          <div className="flex items-center gap-2 mb-2 text-xs text-cyan-400">
             <BrainCircuit className="w-4 h-4" />
-            <span>{category}</span>
+            <span className="font-medium">{category}</span>
           </div>
-          <h3 className="font-medium transition-colors group-hover:text-purple-400">{title}</h3>
-          <p className="mt-2 text-sm text-gray-400 line-clamp-2">{description}</p>
-          <div className="flex items-center gap-1 mt-3 text-xs text-gray-500">
+          <h3 className="font-medium text-white transition-colors group-hover:text-cyan-400">{title}</h3>
+          <p className="mt-2 text-sm text-gray-300 line-clamp-2">{description}</p>
+          <div className="flex items-center gap-1 mt-3 text-xs text-gray-400">
             <Clock className="w-3 h-3" />
             <span>{date}</span>
           </div>

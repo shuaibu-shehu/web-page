@@ -44,7 +44,7 @@ const teamMembers = [
         flag: "🇲🇱",
         specialty: "Global Health",
         image:
-            "https://images.unsplash.com/photo-1594824388853-2c5899d87b29?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
+            "/mahmud.jpeg",
         bio: "Former WHO epidemiologist who witnessed firsthand how technology gaps cost lives in rural communities. Amara founded CodeTherapy after seeing a pregnant woman walk 50km for care that could have been provided locally with the right tools.",
         quote: "Every line of code we write should ask: will this reach the woman walking 50km for care?",
     },
@@ -56,8 +56,8 @@ const teamMembers = [
         flag: "🇳🇬",
         specialty: "AI/ML Engineering",
         image:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Former Google AI researcher who left Silicon Valley to build technology that works in low-resource settings. Raj specializes in creating AI models that function offline and on basic hardware.",
+            "/shuaibu.jpg",
+        bio: "AI researcher who dedicate his career to building technology that works in low-resource settings. Shuaibu specializes in creating AI models that function offline and on basic hardware.",
         quote: "The best AI is invisible - it just works, everywhere, for everyone.",
     },
     {
@@ -200,37 +200,42 @@ export default function AboutPage() {
     })
 
     return (
-        <div className="min-h-screen bg-transparent">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
             {/* Hero Section */}
-            <section className="relative flex items-center justify-center h-screen overflow-hidden text-white bg-black">
+            <section className="relative flex items-center justify-center h-screen overflow-hidden text-white">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
                 <div className="absolute inset-0">
                     <Image
                         src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2000&h=1200&auto=format&fit=crop"
                         alt="Diverse hands converging around holographic heart over world map"
                         fill
-                        className="object-cover"
+                        className="object-cover opacity-30"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900"></div>
                 </div>
+
+                {/* Animated gradient orbs */}
+                <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
                 <div className="relative z-10 max-w-4xl px-4 mx-auto text-center text-white">
                     <h1 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
-                        Where <span className="text-yellow-400">Humanity</span>
+                        Where <span className="gradient-text">Humanity</span>
                         <br />
-                        Guides <span className="text-blue-400">Technology</span>
+                        Guides <span className="gradient-text">Technology</span>
                     </h1>
-                    <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-200 md:text-2xl">
+                    <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-300 md:text-2xl leading-relaxed">
                         Building AI that serves the last mile first, because healthcare is a human right, not a privilege.
                     </p>
                     <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                        <Button size="lg" className="px-8 py-3 text-white bg-blue-600 hover:bg-blue-700">
+                        <Button size="lg" className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/25">
                             Our Impact <ArrowRight className="w-5 h-5 ml-2" />
                         </Button>
                         <Button
                             size="lg"
                             variant="outline"
-                            className="px-8 py-3 text-white border-white hover:bg-white hover:text-black"
+                            className="px-8 py-3 text-white border-cyan-500/50 hover:bg-cyan-500/10 hover:border-cyan-400 glass"
                         >
                             <Play className="w-5 h-5 mr-2" />
                             Watch Our Story
@@ -240,59 +245,18 @@ export default function AboutPage() {
             </section>
 
             {/* Our Story Section */}
-            <section className="py-20 text-white bg-black">
-                <div className="container px-4 mx-auto">
-                    <div className="grid items-center max-w-6xl gap-12 mx-auto lg:grid-cols-2">
-                        <div>
-                            <h2 className="mb-6 text-4xl font-bold text-gray-300">Our Story</h2>
-                            <div className="prose prose-lg text-gray-400">
-                                <p className="mb-4">
-                                    CodeTherapy began with a simple question: Why does a child in rural Mali have less access to
-                                    life-saving healthcare than a child in Manhattan?
-                                </p>
-                                <p className="mb-4">
-                                    In 2019, Dr. Amara Diallo was working with WHO in West Africa when she met Fatou, a pregnant woman who
-                                    had walked 50 kilometers to reach the nearest clinic. Fatou arrived too late. Her complications could
-                                    have been detected and managed locally with the right tools and training.
-                                </p>
-                                <p className="mb-4">
-                                    That night, Amara called her friend Raj Patel, an AI researcher at Google. "We're building incredible
-                                    technology," she said, "but it's not reaching the people who need it most." Six months later, they
-                                    left their prestigious positions to start CodeTherapy.
-                                </p>
-                                <p>
-                                    Today, we're a global collective of technologists, clinicians, and community advocates united by one
-                                    belief: technology should serve humanity's most vulnerable first, not last.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="relative">
-                            <Image
-                                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&h=600&auto=format&fit=crop"
-                                alt="Founders building first prototype in casual workshop setting"
-                                width={800}
-                                height={600}
-                                className="rounded-lg shadow-lg"
-                            />
-                            <div className="absolute p-4 bg-white rounded-lg shadow-lg -bottom-4 -right-4">
-                                <p className="text-sm font-medium text-gray-900">Amara & Raj</p>
-                                <p className="text-xs text-gray-600">Building our first prototype, 2020</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+
 
             {/* Mission & Vision */}
             <section className="py-20">
                 <div className="container px-4 mx-auto">
                     <div className="grid max-w-4xl gap-8 mx-auto md:grid-cols-2">
-                        <Card className="transition-colors border-2 border-blue-100 hover:border-blue-300">
+                        <Card className="transition-all duration-300 glass-card hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
                             <CardHeader className="text-center">
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
-                                    <Heart className="w-8 h-8 text-blue-600" />
+                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full">
+                                    <Heart className="w-8 h-8 text-white" />
                                 </div>
-                                <CardTitle className="text-2xl font-bold text-gray-300">Our Mission</CardTitle>
+                                <CardTitle className="text-2xl font-bold text-white">Our Mission</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-center text-gray-300">
@@ -302,12 +266,12 @@ export default function AboutPage() {
                             </CardContent>
                         </Card>
 
-                        <Card className="transition-colors border-2 border-green-100 hover:border-green-300">
+                        <Card className="transition-all duration-300 glass-card hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-1">
                             <CardHeader className="text-center">
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
-                                    <Globe className="w-8 h-8 text-green-600" />
+                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-green-400 rounded-full">
+                                    <Globe className="w-8 h-8 text-white" />
                                 </div>
-                                <CardTitle className="text-2xl font-bold text-gray-300">Our Vision</CardTitle>
+                                <CardTitle className="text-2xl font-bold text-white">Our Vision</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-center text-gray-300">
@@ -321,10 +285,10 @@ export default function AboutPage() {
             </section>
 
             {/* Values Grid */}
-            <section className="py-20 bg-black">
+            <section className="py-20">
                 <div className="container px-4 mx-auto">
                     <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-200">Our Values</h2>
+                        <h2 className="mb-4 text-4xl font-bold">Our Values</h2>
                         <p className="max-w-2xl mx-auto text-xl text-gray-300">
                             These principles guide every decision we make, from code commits to partnership agreements.
                         </p>
@@ -334,14 +298,14 @@ export default function AboutPage() {
                         {values.map((value, index) => (
                             <Card
                                 key={index}
-                                className="transition-all duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:border-blue-700"
+                                className="transition-all duration-300 cursor-pointer glass-card hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1"
                                 onClick={() => setSelectedValue(value)}
                             >
                                 <CardHeader className="text-center">
-                                    <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 bg-blue-100 rounded-full">
-                                        <value.icon className="w-6 h-6 text-blue-600" />
+                                    <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-500/30">
+                                        <value.icon className="w-6 h-6 text-cyan-400" />
                                     </div>
-                                    <CardTitle className="text-lg font-bold text-gray-200">{value.title}</CardTitle>
+                                    <CardTitle className="text-lg font-bold text-white">{value.title}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-sm text-center text-gray-300">{value.description}</p>
@@ -356,8 +320,8 @@ export default function AboutPage() {
             <section className="py-20">
                 <div className="container px-4 mx-auto">
                     <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-300">Our Global Collective</h2>
-                        <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-400">
+                        <h2 className="mb-4 text-4xl font-bold">Our Global Collective</h2>
+                        <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-300">
                             Meet the diverse team of changemakers building technology that serves humanity.
                         </p>
 
@@ -369,7 +333,7 @@ export default function AboutPage() {
                                     variant={selectedFilter === filter ? "default" : "outline"}
                                     size="sm"
                                     onClick={() => setSelectedFilter(filter)}
-                                    className={selectedFilter === filter ? "bg-blue-600 hover:bg-blue-700" : ""}
+                                    className={selectedFilter === filter ? "bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0" : "glass text-gray-300 hover:text-white border-slate-700"}
                                 >
                                     <Filter className="w-4 h-4 mr-1" />
                                     {filter}
@@ -383,30 +347,30 @@ export default function AboutPage() {
                         {filteredTeam.map((member) => (
                             <Dialog key={member.id}>
                                 <DialogTrigger asChild>
-                                    <Card className="transition-all duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-1">
+                                    <Card className="transition-all duration-300 cursor-pointer glass-card hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
                                         <CardContent className="p-6 text-center">
                                             <div className="relative w-24 h-24 mx-auto mb-4">
                                                 <Image
                                                     src={member.image || "/placeholder.svg"}
                                                     alt={member.name}
                                                     fill
-                                                    className="object-cover rounded-full"
+                                                    className="object-cover rounded-full ring-2 ring-cyan-500/30"
                                                 />
                                                 <div className="absolute text-2xl -bottom-1 -right-1">{member.flag}</div>
                                             </div>
-                                            <h3 className="mb-1 font-bold text-gray-900">{member.name}</h3>
-                                            <p className="mb-1 text-sm text-blue-600">{member.role}</p>
-                                            <div className="flex items-center justify-center text-xs text-gray-500">
+                                            <h3 className="mb-1 font-bold text-white">{member.name}</h3>
+                                            <p className="mb-1 text-sm text-cyan-400">{member.role}</p>
+                                            <div className="flex items-center justify-center text-xs text-gray-400">
                                                 <MapPin className="w-3 h-3 mr-1" />
                                                 {member.location}
                                             </div>
-                                            <Badge variant="secondary" className="mt-2 text-xs">
+                                            <Badge variant="secondary" className="mt-2 text-xs bg-cyan-500/10 text-cyan-400 border-cyan-500/20">
                                                 {member.specialty}
                                             </Badge>
                                         </CardContent>
                                     </Card>
                                 </DialogTrigger>
-                                <DialogContent className="max-w-2xl">
+                                <DialogContent className="max-w-2xl glass-card border-slate-700">
                                     <DialogHeader>
                                         <div className="flex items-center gap-4 mb-4">
                                             <div className="relative w-16 h-16">
@@ -414,13 +378,13 @@ export default function AboutPage() {
                                                     src={member.image || "/placeholder.svg"}
                                                     alt={member.name}
                                                     fill
-                                                    className="object-cover rounded-full"
+                                                    className="object-cover rounded-full ring-2 ring-cyan-500/30"
                                                 />
                                             </div>
                                             <div>
-                                                <DialogTitle className="text-xl">{member.name}</DialogTitle>
-                                                <DialogDescription className="font-medium text-blue-600">{member.role}</DialogDescription>
-                                                <div className="flex items-center mt-1 text-sm text-gray-500">
+                                                <DialogTitle className="text-xl text-white">{member.name}</DialogTitle>
+                                                <DialogDescription className="font-medium text-cyan-400">{member.role}</DialogDescription>
+                                                <div className="flex items-center mt-1 text-sm text-gray-400">
                                                     <MapPin className="w-3 h-3 mr-1" />
                                                     {member.location} {member.flag}
                                                 </div>
@@ -428,8 +392,8 @@ export default function AboutPage() {
                                         </div>
                                     </DialogHeader>
                                     <div className="space-y-4">
-                                        <p className="text-gray-700">{member.bio}</p>
-                                        <blockquote className="pl-4 italic text-gray-600 border-l-4 border-blue-500">
+                                        <p className="text-gray-300">{member.bio}</p>
+                                        <blockquote className="pl-4 italic text-gray-400 border-l-4 border-cyan-500">
                                             "{member.quote}"
                                         </blockquote>
                                     </div>
@@ -441,30 +405,32 @@ export default function AboutPage() {
                     {/* Group Photo */}
                     <div className="text-center">
                         <div className="relative inline-block">
-                            <Image
-                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&h=600&auto=format&fit=crop"
-                                alt="Team collaborating outdoors"
-                                width={1000}
-                                height={600}
-                                className="rounded-lg shadow-lg"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center transition-opacity rounded-lg opacity-0 bg-black/20 hover:opacity-100">
-                                <Button className="text-black bg-white/90 hover:bg-white">
-                                    <Play className="w-4 h-4 mr-2" />
-                                    Watch Culture Reel
-                                </Button>
+                            <div className="relative rounded-2xl overflow-hidden glass-card glow-effect">
+                                <Image
+                                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&h=600&auto=format&fit=crop"
+                                    alt="Team collaborating outdoors"
+                                    width={1000}
+                                    height={600}
+                                    className="object-cover"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center transition-opacity rounded-lg opacity-0 bg-slate-900/60 hover:opacity-100">
+                                    <Button className="text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 border-0">
+                                        <Play className="w-4 h-4 mr-2" />
+                                        Watch Culture Reel
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                        <p className="mt-2 text-sm text-gray-600">Annual team hackathon in Bamako, Mali 2023</p>
+                        <p className="mt-2 text-sm text-gray-400">Annual team hackathon in Bamako, Mali 2023</p>
                     </div>
                 </div>
             </section>
 
             {/* How We Work */}
-            <section className="py-20 ">
+            <section className="py-20">
                 <div className="container px-4 mx-auto">
                     <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-400">How We Work</h2>
+                        <h2 className="mb-4 text-4xl font-bold">How We Work</h2>
                         <p className="max-w-2xl mx-auto text-xl text-gray-300">
                             Our methodology ensures every solution is community-driven, culturally appropriate, and globally scalable.
                         </p>
@@ -474,14 +440,14 @@ export default function AboutPage() {
                         {workProcess.map((step, index) => (
                             <div key={index} className="flex items-start gap-6 mb-8 last:mb-0">
                                 <div className="flex-shrink-0">
-                                    <div className="flex items-center justify-center w-12 h-12 text-lg font-bold text-white bg-blue-600 rounded-full">
+                                    <div className="flex items-center justify-center w-12 h-12 text-lg font-bold text-white bg-gradient-to-br from-blue-600 to-cyan-500 rounded-full shadow-lg shadow-blue-500/25">
                                         {step.step}
                                     </div>
                                 </div>
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-2">
-                                        <step.icon className="w-6 h-6 text-blue-600" />
-                                        <h3 className="text-xl font-bold text-gray-500">{step.title}</h3>
+                                        <step.icon className="w-6 h-6 text-cyan-400" />
+                                        <h3 className="text-xl font-bold text-white">{step.title}</h3>
                                     </div>
                                     <p className="text-gray-300">{step.description}</p>
                                 </div>
@@ -495,7 +461,7 @@ export default function AboutPage() {
             <section className="py-20">
                 <div className="container px-4 mx-auto">
                     <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-400">Our Impact</h2>
+                        <h2 className="mb-4 text-4xl font-bold">Our Impact</h2>
                         <p className="max-w-2xl mx-auto text-xl text-gray-300">
                             Real solutions creating measurable change in communities worldwide.
                         </p>
@@ -504,11 +470,11 @@ export default function AboutPage() {
                     {/* Impact Stats */}
                     <div className="grid max-w-4xl gap-6 mx-auto mb-16 md:grid-cols-4">
                         {impactStats.map((stat, index) => (
-                            <Card key={index} className="text-center">
+                            <Card key={index} className="text-center glass-card hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300">
                                 <CardContent className="p-6">
-                                    <stat.icon className="w-8 h-8 mx-auto mb-3 text-blue-600" />
-                                    <div className="mb-1 text-3xl font-bold text-gray-700">{stat.value}</div>
-                                    <div className="text-sm text-gray-600">{stat.label}</div>
+                                    <stat.icon className="w-8 h-8 mx-auto mb-3 text-cyan-400" />
+                                    <div className="mb-1 text-3xl font-bold gradient-text">{stat.value}</div>
+                                    <div className="text-sm text-gray-300">{stat.label}</div>
                                 </CardContent>
                             </Card>
                         ))}
@@ -720,7 +686,7 @@ export default function AboutPage() {
                 </Dialog>
             )}
 
-             <Footer/>
+            <Footer />
         </div>
     )
 }

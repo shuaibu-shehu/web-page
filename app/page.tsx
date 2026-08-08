@@ -20,7 +20,7 @@ export default function Home() {
   const { toast } = useToast()
   const newsletterRef = useRef<HTMLElement>(null)
 
-   const scrollToNewsletter = () => {
+  const scrollToNewsletter = () => {
     newsletterRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
@@ -54,7 +54,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen text-white bg-black">
+    <div className="min-h-screen text-white bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* <header className="container py-6 mx-auto">
         <div className="flex items-center justify-between">
           <Link href="/" className="text-xl font-bold tracking-tighter">
@@ -84,28 +84,27 @@ export default function Home() {
         </div>
       </header> */}
       {/* <Navbar newsletterRef={newsletterRef} scrollToNewsletter={scrollToNewsletter}/> */}
-     <Hero/>
-      <main className="container px-4 py-0 mx-auto -mt-20">
-        <section className="mb-20">
+      <Hero />
+      <main className="container px-4 py-20 mx-auto">
+        <section className="mb-24">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div className="z-50 space-y-6">
-              <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-                Our <span className="text-blue-500">Moto</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card">
+                <span className="text-xs text-cyan-400 font-medium">Our Mission</span>
+              </div>
+              <h1 className="text-4xl font-bold leading-tight md:text-5xl">
+                Accelerating <span className="gradient-text">Disease Identification</span>
               </h1>
-              <p className="text-lg text-gray-400 md:text-xl">
-                {/* We tackle real-world healthcare challenges by delivering scalable, affordable, and efficient solutions. Our mission is to create tangible impact through state-of-the-art AI diagnostic tools tailored for low-resource settings — ensuring equal access to quality healthcare across Africa and beyond. */}
-                Our efforts focus on quickening disease identification and helping medical professionals offer effective therapy.
+              <p className="text-lg text-gray-300 md:text-xl leading-relaxed">
+                Our efforts focus on quickening disease identification and helping medical professionals offer effective therapy through cutting-edge AI solutions.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  <Link href="/about/">Our purpose</Link>
+                <Button className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/25">
+                  <Link href="/about/">Learn More</Link>
                 </Button>
-                {/* <Button variant="outline" className="border-gray-700 hover:bg-gray-900" onClick={scrollToNewsletter}>
-                  Join Newsletter
-                </Button> */}
               </div>
             </div>
-            <div className="order-first  lg:order-none relative top-40 lg:top-0 h-[400px] rounded-xl overflow-hidden border border-b-0 border-gray-800">
+            <div className="order-first lg:order-none relative h-[400px] rounded-2xl overflow-hidden glass-card glow-effect">
               <Image
                 src="/motto.jpg"
                 alt="AI visualization showing neural network connections"
@@ -113,62 +112,68 @@ export default function Home() {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
             </div>
           </div>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            
-            <div className="order-first  lg:order-none relative top-40 lg:top-0 h-[400px] rounded-xl overflow-hidden border border-b-0 border-gray-800">
+          <div className="grid items-center gap-12 lg:grid-cols-2 mt-20">
+            <div className="order-first lg:order-none relative h-[400px] rounded-2xl overflow-hidden glass-card glow-effect">
               <Image
-                src="img2.png"
+                src="/img2.png"
                 alt="AI visualization showing neural network connections"
                 fill
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
             </div>
             <div className="z-50 space-y-6">
-              <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-                We <span className="text-blue-500">Collaborate</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card">
+                <span className="text-xs text-cyan-400 font-medium">Partnerships</span>
+              </div>
+              <h1 className="text-4xl font-bold leading-tight md:text-5xl">
+                We <span className="gradient-text">Collaborate</span>
               </h1>
-              <p className="text-lg text-gray-400 md:text-xl">
-                We forge strategic partnerships with leading healthcare institutions, pioneering researchers, and global health organizations to co-create transformative solutions. Through collaborative research and agile development cycles, we tackle urgent healthcare challenges—from diagnostic gaps in rural settings to disease surveillance across Africa and beyond. Our joint initiatives prioritize scalable, low-resource settings, turning cutting-edge AI into tangible tools that empower frontline workers and democratize healthcare access worldwide.
+              <p className="text-lg text-gray-300 md:text-xl leading-relaxed">
+                We forge strategic partnerships with leading healthcare institutions, pioneering researchers, and global health organizations to co-create transformative solutions. Through collaborative research and agile development cycles, we tackle urgent healthcare challenges—from diagnostic gaps in rural settings to disease surveillance across Africa and beyond.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/25">
                   <Link href="/partnerships/">Our Partners</Link>
                 </Button>
-                {/* <Button variant="outline" className="border-gray-700 hover:bg-gray-900" onClick={scrollToNewsletter}>
-                  Join Newsletter
-                </Button> */}
               </div>
             </div>
           </div>
         </section>
 
-        <section>
-          {/* <h1 className="text-l2xl"> A Team of Humane-centered approach</h1> */}
-          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
-            A Team of <span className="text-blue-500">Humane-centered approach</span>
-          </h1>
+        <section className="mb-24">
+          <div className="glass-card rounded-2xl p-8 md:p-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+              <span className="text-xs text-blue-400 font-medium">Our Approach</span>
+            </div>
+            <h1 className="mt-6 text-4xl font-bold leading-tight md:text-5xl">
+              A <span className="gradient-text">Humane-Centered</span> Approach
+            </h1>
 
-          <p className="mt-4 text-lg text-gray-400 md:text-xl">
-            Our team is dedicated to creating AI solutions that prioritize human needs and ethical considerations. We believe in a humane-centered approach, ensuring that our technologies are designed with empathy and respect for all individuals.
-          </p>
+            <p className="mt-4 text-lg text-gray-300 md:text-xl leading-relaxed">
+              Our team is dedicated to creating AI solutions that prioritize human needs and ethical considerations. We believe in a humane-centered approach, ensuring that our technologies are designed with empathy and respect for all individuals.
+            </p>
 
-          <div className="mt-8 mb-8">
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Link href="/about/">Learn More About Our Team</Link>
-            </Button>
+            <div className="mt-8">
+              <Button className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/25">
+                <Link href="/about/">Learn More About Our Team</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
-        <section className="mb-20">
+        <section className="mb-24">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold">Featured Projects and Research</h2>
-            <Link href="/projects/" className="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-400">
-              View all <Eye className="w-4 h-4" />
+            <div>
+              <h2 className="text-3xl font-bold">Featured Projects</h2>
+              <p className="text-gray-400 mt-2">Cutting-edge AI research transforming healthcare</p>
+            </div>
+            <Link href="/projects/" className="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 group">
+              View all <Eye className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
@@ -242,27 +247,26 @@ export default function Home() {
           </div>
         </section> */}
 
-        <section ref={newsletterRef} id="newsletter" className="p-8 mb-20 bg-gray-900 rounded-xl">
+        <section ref={newsletterRef} id="newsletter" className="p-8 mb-20 glass-card rounded-2xl glow-effect">
           <div className="grid items-center gap-8 md:grid-cols-2">
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Stay Updated</h2>
-              <p className="text-gray-400">
-                Subscribe to our newsletter to receive the latest insights on AI advancements, tutorials, and industry
-                news.
+              <p className="text-gray-300">
+                Subscribe to our newsletter to receive the latest insights on AI advancements in healthcare, research breakthroughs, and industry news.
               </p>
             </div>
             <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="bg-black border-gray-800 focus-visible:ring-purple-500"
+                className="bg-slate-800/50 border-slate-700 focus-visible:ring-cyan-500 text-white placeholder:text-gray-500"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
               <Button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 whitespace-nowrap"
+                className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white border-0 shadow-lg shadow-blue-500/25 whitespace-nowrap"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Subscribing..." : "Subscribe"}
@@ -271,7 +275,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <Footer />    
+      <Footer />
     </div>
   )
 }
@@ -288,27 +292,28 @@ type FeaturedCardProps = {
 
 function FeaturedCard({ title, description, image, date, category, icon, slug = "" }: FeaturedCardProps) {
   return (
-    <Card className="overflow-hidden transition-colors bg-gray-900 border-gray-800 hover:border-blue-500/50">
+    <Card className="overflow-hidden transition-all duration-300 glass-card hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 group">
       <div className="relative h-48">
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
       </div>
-      <CardHeader>
-        <div className="flex items-center gap-2 mb-2 text-sm text-blue-500">
+      <CardHeader className="pb-3">
+        <div className="flex items-center gap-2 mb-2 text-sm text-cyan-400">
           {icon}
-          <span>{category}</span>
+          <span className="font-medium">{category}</span>
         </div>
-        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardTitle className="text-xl text-white group-hover:text-cyan-400 transition-colors">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <CardDescription className="text-gray-400">{description}</CardDescription>
+      <CardContent className="pb-3">
+        <CardDescription className="text-gray-300 line-clamp-2">{description}</CardDescription>
       </CardContent>
-      <CardFooter className="flex justify-between text-sm text-gray-500">
+      <CardFooter className="flex justify-between text-sm text-gray-400 pt-3">
         <div className="flex items-center gap-1">
           <Clock className="w-4 h-4" />
           <span>{date}</span>
         </div>
-        <Link href={`/blog/${slug}/`} className="text-blue-500 hover:text-blue-400">
-          Read more →
+        <Link href={`/blog/${slug}/`} className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 group-hover:gap-2 transition-all">
+          Read more <span className="group-hover:translate-x-1 transition-transform">→</span>
         </Link>
       </CardFooter>
     </Card>
