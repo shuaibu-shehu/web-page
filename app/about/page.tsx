@@ -30,32 +30,39 @@ const team = [
     photo: "/shuaibu.jpeg",
   },
   {
-    name: "Dr. Sarah Chen",
-    flag: "🇨🇦",
+    name: "Dr. Ousmane Ly",
+    flag: "ML",
     role: "Clinical Research",
     bio: "Oversight of diagnostic verification protocols and trial coordination.",
-    photo: "/v2/team-3.png",
+    photo: "/placeholder-user.jpg",
   },
   {
-    name: "Kofi Asante",
+    name: "Dr. Bourama Tangara",
     flag: "🇬🇭",
     role: "Community Partnerships",
     bio: "Fostering regional trust, managing clinic integrations and onboarding.",
-    photo: "/v2/team-4.png",
+    photo: "/placeholder-user.jpg",
   },
   {
-    name: "Dr. Maria Santos",
+    name: "Dr Adama Bréhima Cissouma",
     flag: "🇧🇷",
     role: "Ethics",
     bio: "Guiding data privacy compliance, model auditing, and clinical equity.",
-    photo: "/v2/team-5.png",
+    photo: "/placeholder-user.jpg",
   },
   {
-    name: "James Ochieng",
+    name: "Dr Moussa Camara",
     flag: "🇰🇪",
     role: "Field Operations",
     bio: "Leading infrastructure set-up and direct support for rural health workers.",
-    photo: "/v2/team-6.png",
+    photo: "/placeholder-user.jpg",
+  },
+  {
+    name: "Dr Ibrahim Sokoré",
+    flag: "🇰🇪",
+    role: "Field Operations",
+    bio: "Leading infrastructure set-up and direct support for rural health workers.",
+    photo: "/placeholder-user.jpg",
   },
 ]
 
@@ -72,7 +79,7 @@ export default function AboutPage() {
         </div>
         <div className="relative h-[320px] w-full overflow-hidden rounded-bl-[24px] rounded-br-[180px] rounded-tl-[180px] rounded-tr-[24px] md:h-[480px]">
           <Image
-            src="/v2/about-hero.png"
+            src="/about-hero.png"
             alt="The CodeTherapy team at work"
             fill
             priority
@@ -159,7 +166,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {values.map(({ icon: Icon, title, body }, i) => (
             <Reveal key={title} delay={i * 80}>
-              <div className="flex h-full flex-col gap-4 rounded-2xl border border-line bg-white p-7">
+              <div className="flex flex-col h-full gap-4 bg-white border rounded-2xl border-line p-7">
                 <span className="flex size-11 items-center justify-center rounded-[22px] bg-clay-soft">
                   <Icon className="size-5 text-clay" />
                 </span>
@@ -182,7 +189,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {team.map((member, i) => (
             <Reveal key={member.name} delay={(i % 3) * 80}>
-              <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white">
+              <article className="flex flex-col h-full overflow-hidden bg-white border rounded-2xl border-line">
                 {/*
                   A square well is the shape a headshot is already close to, so it
                   fills edge to edge with almost nothing lost: a 1:1 portrait keeps
@@ -190,7 +197,7 @@ export default function AboutPage() {
                   sits high so the trim always comes off the chest, never the face.
                   Wide environmental shots give up side background instead.
                 */}
-                <div className="relative aspect-square w-full shrink-0 border-b border-line bg-sage-soft">
+                <div className="relative w-full border-b aspect-square shrink-0 border-line bg-sage-soft">
                   <Image
                     src={member.photo}
                     alt={member.name}
@@ -199,7 +206,7 @@ export default function AboutPage() {
                     className="object-cover object-[center_25%]"
                   />
                 </div>
-                <div className="flex flex-col gap-2 px-5 pb-6 pt-5">
+                <div className="flex flex-col gap-2 px-5 pt-5 pb-6">
                   <div className="flex items-center gap-2">
                     <h3 className="font-serif text-xl font-semibold text-ink">{member.name}</h3>
                     <span className="text-lg leading-none">{member.flag}</span>

@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { FileText } from "lucide-react";
 
 import SectionLabel from "@/components/section-label";
+import { Monogram } from "@/components/brand-mark";
 import ProjectCard from "@/components/project-card";
 import {
   getProject,
@@ -68,9 +70,7 @@ export default function ProjectDetailPage({
             {project.headline}
           </h1>
           <div className="flex items-center gap-4">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-[14px] bg-sage-soft font-serif text-sm font-bold text-sage">
-              C
-            </span>
+            <Monogram />
             <p className="text-sm text-ink-soft">
               {project.byline} <span className="text-line">|</span>{" "}
               {project.publishedOn} <span className="text-line">|</span>{" "}
@@ -102,6 +102,21 @@ export default function ProjectDetailPage({
                 {paragraph}
               </p>
             ))}
+
+            {/* `publication-link` — only rendered for published work. */}
+            {project.paper && (
+              <a
+                href={project.paper.url}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-2 text-sm font-semibold text-sage transition-colors hover:text-ink"
+              >
+                <FileText className="size-4 shrink-0" />
+                <span className="underline underline-offset-2">
+                  Read the published paper: {project.paper.journal} →
+                </span>
+              </a>
+            )}
           </div>
 
           <aside className="w-full shrink-0 rounded-3xl border border-line bg-white p-8 drop-shadow-[0px_8px_12px_rgba(30,34,41,0.04)] lg:w-[380px]">

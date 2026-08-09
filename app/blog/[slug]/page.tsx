@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import SectionLabel from "@/components/section-label";
+import { Monogram } from "@/components/brand-mark";
 import { featuredPost, posts, type Post } from "@/lib/posts";
 import { cn } from "@/lib/utils";
 
@@ -58,9 +59,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
             {post.title}
           </h1>
           <div className="flex items-center gap-4">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-[14px] bg-sage-soft font-serif text-sm font-bold text-sage">
-              C
-            </span>
+            <Monogram />
             <p className="text-sm text-ink-soft">
               CodeTherapy <span className="text-line">|</span> {post.date}
             </p>

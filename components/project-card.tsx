@@ -7,7 +7,7 @@ import type { Project } from "@/lib/projects";
 /**
  * `project-card` in Figma.
  * - `compact` — landing page: 220px image, 24px title, "Read more" only.
- * - `detailed` — projects index: 260px image, 26px title, hairline + author row.
+ * - `detailed` — projects index: 260px image, 26px title, hairline above the action.
  */
 export default function ProjectCard({
   project,
@@ -77,28 +77,12 @@ export default function ProjectCard({
         </p>
 
         {detailed ? (
-          <div className="mt-auto flex flex-col gap-4 pt-0">
+          <div className="mt-auto flex flex-col gap-4">
             <span className="block h-px w-full bg-line" />
-            <div className="flex items-center justify-between">
-              <span className="flex items-center gap-2">
-                <span className="relative size-7 shrink-0 overflow-hidden rounded-[14px]">
-                  <Image
-                    src={project.author.avatar}
-                    alt=""
-                    fill
-                    sizes="28px"
-                    className="object-cover"
-                  />
-                </span>
-                <span className="text-[13px] font-semibold text-ink">
-                  {project.author.name}
-                </span>
-              </span>
-              <span className="flex items-center gap-1 text-[13px] font-semibold text-sage">
-                Read more
-                <ArrowRight className="size-[14px] transition-transform group-hover:translate-x-1" />
-              </span>
-            </div>
+            <span className="flex items-center gap-1 text-[13px] font-semibold text-sage">
+              Read more
+              <ArrowRight className="size-[14px] transition-transform group-hover:translate-x-1" />
+            </span>
           </div>
         ) : (
           <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-semibold text-sage">

@@ -9,7 +9,6 @@ export type Project = {
   date: string
   image: string
   heroImage: string
-  author: { name: string; avatar: string }
   byline: string
   publishedOn: string
   readTime: string
@@ -22,6 +21,11 @@ export type Project = {
   /** clay = earlier stage, sage = validated in clinic. Matches the site's palette semantics. */
   statusTone: "sage" | "clay"
   technologies: string
+  /**
+   * Peer-reviewed publication, when there is one. Omit for unpublished work —
+   * the detail page hides the link entirely rather than showing a dead label.
+   */
+  paper?: { journal: string; url: string }
 }
 
 /** Content mirrors the `v2-*` Figma frames. */
@@ -37,21 +41,25 @@ export const projects: Project[] = [
     date: "May 2025",
     image: "/v2/project-laparoscopy.png",
     heroImage: "/v2/detail-laparoscopy.png",
-    author: { name: "Dr. Amara Diallo", avatar: "/v2/author-amara.png" },
     byline: "CodeTherapy R&D",
     publishedOn: "May 15, 2025",
     readTime: "3 min read",
     body: [
-      "The CodeTherapy R&D unit collaborated with biomedical engineers from Senegal to build an end-to-end laparoscope prototype equipped with IoT sensors and onboard AI. This joint milestone marks a pivotal shift toward engineering healthcare systems designed from the ground up for low-resource clinics rather than adapting complex, high-power Western hardware.",
+      "The CodeTherapy R&D unit collaborated with biomedical engineers from Senegal and India to build an end-to-end laparoscope prototype equipped with IoT sensors and onboard AI. This joint milestone marks a pivotal shift toward engineering healthcare systems designed from the ground up for low-resource clinics rather than adapting complex, high-power Western hardware.",
       "The team designed and trained object-detection networks to recognize organs and common pathologies in real time, providing augmented video overlays for surgeons. The system was optimized for low power and manufacturability, utilizing readily available electronic components that can be sourced and repaired locally without relying on proprietary global supply chains.",
       "The goal is to make minimally invasive surgery more accessible in under-resourced hospital settings across West Africa, where access to advanced surgical tools remains critically limited. By lowering both cost and complexity, CodeTherapy aims to assist local clinical centers in significantly reducing post-operative complications and patient recovery times.",
     ],
-    partners: "Université Cheikh Anta Diop",
-    location: "Dakar, Senegal",
+    partners: "Andhra Pradesh MedTech Zone, Senegalese Biomedical Engineers",
+    location: "Visakhapatnam, India",
     timeline: "2024–2025",
     status: "Prototype Testing",
     statusTone: "clay",
     technologies: "Object Detection, IoT, Edge AI",
+    paper: {
+      journal: "IEEE Biomedical Engineering and Sustainable Healthcare (ICBMESH 2025)",
+
+      url: "https://ieeexplore.ieee.org/document/11182204",
+    },
   },
   {
     slug: "malaria-detection",
@@ -64,7 +72,6 @@ export const projects: Project[] = [
     date: "June 2025",
     image: "/v2/project-malaria.png",
     heroImage: "/v2/detail-malaria.png",
-    author: { name: "Shuaibu Shehu", avatar: "/v2/author-shuaibu.png" },
     byline: "CodeTherapy + Dr. Mulugeta's Lab",
     publishedOn: "June 2, 2025",
     readTime: "5 min read",
@@ -89,9 +96,8 @@ export const projects: Project[] = [
     tag: "AI Research",
     tagTone: "sage",
     date: "June 2025",
-    image: "/v2/project-mammography.png",
+    image: "/mammogram.png",
     heroImage: "/v2/detail-mammography.png",
-    author: { name: "Dr. Sarah Chen", avatar: "/v2/author-sarah.png" },
     byline: "CodeTherapy Clinical Team",
     publishedOn: "June 28, 2025",
     readTime: "4 min read",

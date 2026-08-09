@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BrandMark } from "./site-header";
+import BrandMark from "@/components/brand-mark";
 
 const footerColumns = [
   {
@@ -46,11 +46,7 @@ export default function SiteFooter() {
       <div className="shell flex flex-col gap-16 pb-12 pt-24">
         <div className="flex flex-col gap-12 lg:flex-row lg:gap-8">
           <div className="flex w-full max-w-[405px] flex-col gap-6">
-            <BrandMark
-              size={32}
-              radius={16}
-              textClass="text-white text-[20px]"
-            />
+            <BrandMark size={32} textClass="text-white text-[20px]" />
             <p className="text-sm leading-[1.6] text-[#d1d6d2] opacity-80">
               Developing globally trusted, clinically sound artificial
               intelligence diagnostics with a specific dedication to health

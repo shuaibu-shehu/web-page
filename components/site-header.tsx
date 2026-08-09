@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 
+import BrandMark from "@/components/brand-mark";
 import { projects } from "@/lib/projects";
 import { cn } from "@/lib/utils";
 
@@ -16,39 +17,6 @@ export const navLinks = [
   { label: "News", href: "/blog", panel: false },
   { label: "FAQ", href: "/faq", panel: false },
 ];
-
-export function BrandMark({
-  size = 36,
-  radius = 18,
-  textClass = "text-ink text-[22px]",
-  label = true,
-}: {
-  size?: number;
-  radius?: number;
-  textClass?: string;
-  label?: boolean;
-}) {
-  return (
-    <span className="flex items-center gap-[10px]">
-      <span
-        className="flex shrink-0 items-center justify-center bg-sage font-serif font-bold text-white"
-        style={{
-          width: size,
-          height: size,
-          borderRadius: radius,
-          fontSize: size * 0.55,
-        }}
-      >
-        C
-      </span>
-      {label && (
-        <span className={cn("font-serif font-bold", textClass)}>
-          CodeTherapy
-        </span>
-      )}
-    </span>
-  );
-}
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-4 focus-visible:ring-offset-cream rounded-sm";
@@ -186,7 +154,7 @@ export default function SiteHeader() {
         )}
       >
         <Link href="/" aria-label="CodeTherapy home" className={focusRing}>
-          <BrandMark size={scrolled ? 32 : 36} radius={scrolled ? 16 : 18} />
+          <BrandMark size={scrolled ? 32 : 36} />
         </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
