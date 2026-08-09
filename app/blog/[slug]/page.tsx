@@ -1,251 +1,140 @@
-"use client"
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-import Link from "next/link"
-import Image from "next/image"
-import { ArrowLeft, BrainCircuit, Clock, Share2, Twitter, Facebook, Linkedin } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
-import { useEffect } from "react"
-import { projects } from "@/lib/constamts"
+import SectionLabel from "@/components/section-label";
+import { Monogram } from "@/components/brand-mark";
+import { featuredPost, posts, type Post } from "@/lib/posts";
+import { cn } from "@/lib/utils";
 
-type RelatedPost = {
-  slug: string
-  title: string
-  category: string
-  image?: string
+const allPosts: Post[] = [featuredPost, ...posts];
+
+function getPost(slug: string) {
+  return allPosts.find((p) => p.slug === slug);
 }
 
-type Project = {
-  title: string
-  date: string
-  author: string
-  category: string
-  readTime: string
-  image: string
-  content: string
-  relatedPosts?: RelatedPost[]
+export function generateStaticParams() {
+  return allPosts.map((post) => ({ slug: post.slug }));
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const { toast } = useToast()
-  const project: Project | undefined = projects[params.slug as keyof typeof projects]
+export function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Metadata {
+  const post = getPost(params.slug);
+  if (!post) return { title: "Article not found — CodeTherapy" };
+  return { title: `${post.title} — CodeTherapy`, description: post.excerpt };
+}
 
-  useEffect(() => {
-    if (!project) {
-      toast({
-        title: "Post not found",
-        description: "The requested blog post could not be found.",
-        variant: "destructive",
-      })
-    }
-  }, [project, toast])
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
+  const post = getPost(params.slug);
+  if (!post) notFound();
 
-  if (!project) {
-    return (
-      <div className="flex items-center justify-center min-h-screen text-white bg-black">
-        <div className="text-center">
-          <h1 className="mb-4 text-3xl font-bold">Post Not Found</h1>
-          <p className="mb-6">The blog post you're looking for doesn't exist or has been moved.</p>
-          <Button asChild>
-            <Link href="/">Return Home</Link>
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
-  const handleShare = (platform: string) => {
-    const url = window.location.href
-    const text = `Check out this article: ${project.title}`
-
-    let shareUrl = ""
-
-    switch (platform) {
-      case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
-        break
-      case "facebook":
-        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-        break
-      case "linkedin":
-        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
-        break
-      default:
-        // Copy to clipboard
-        navigator.clipboard.writeText(url)
-        toast({
-          title: "Link copied",
-          description: "The article link has been copied to your clipboard.",
-        })
-        return
-    }
-
-    if (shareUrl) {
-      window.open(shareUrl, "_blank")
-    }
-  }
+  const related = allPosts.filter((p) => p.slug !== post.slug).slice(0, 3);
 
   return (
-    <div className="min-h-screen text-white bg-black">
+    <main className="bg-cream">
+      <article className="shell flex flex-col gap-12 pb-24 pt-14">
+        <Link
+          href="/blog"
+          className="self-start text-sm font-semibold text-sage hover:underline"
+        >
+          ← Back to News
+        </Link>
 
-        {/* <div className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tighter">
-            Neural<span className="text-purple-500">Pulse</span>
-          </Link>
-          <Button
-            variant="outline"
-            className="text-purple-500 border-purple-500 hover:bg-purple-950 hover:text-white"
-            onClick={() => {
-              const newsletterSection = document.getElementById("newsletter")
-              if (newsletterSection) {
-                newsletterSection.scrollIntoView({ behavior: "smooth" })
-              }
-            }}
+        <header className="flex flex-col gap-6">
+          <span
+            className={cn(
+              "self-start rounded-md py-1.5 pl-3.5 pr-2.5 text-xs font-bold uppercase",
+              post.categoryTone === "clay"
+                ? "bg-clay-soft text-clay"
+                : "bg-sage-soft text-sage",
+            )}
           >
-            Subscribe
-          </Button>
-        </div> */}
-      {/* <Navbar/> */}
-
-      <main className="container px-4 py-12 mx-auto">
-        <div className="max-w-3xl mx-auto">
-          <Link href="/projects/" className="inline-flex items-center mb-8 text-gray-400 hover:text-white">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to projects
-          </Link>
-
-          <div className="flex items-center gap-2 mb-4 text-sm text-blue-500">
-            <BrainCircuit className="w-5 h-5" />
-            <span>{project.category}</span>
-          </div>
-
-          <h1 className="mb-6 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">{project.title}</h1>
-
-          <div className="flex items-center gap-4 mb-8 text-sm text-gray-400">
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4" />
-              <span>{project.readTime}</span>
-            </div>
-            <div>{project.date}</div>
-            {/* <div>By {post.author}</div> */}
-          </div>
-
-          <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden border border-gray-800 mb-8">
-            <Image
-              src={project.image || "/placeholder.svg"}
-              alt="Article hero image showing GAN-generated art"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 px-3 border-gray-800 hover:bg-gray-900"
-                onClick={() => handleShare("twitter")}
-              >
-                <Twitter className="w-4 h-4 mr-1" />
-                Share
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 px-3 border-gray-800 hover:bg-gray-900"
-                onClick={() => handleShare("facebook")}
-              >
-                <Facebook className="w-4 h-4 mr-1" />
-                Share
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 px-3 border-gray-800 hover:bg-gray-900"
-                onClick={() => handleShare("linkedin")}
-              >
-                <Linkedin className="w-4 h-4 mr-1" />
-                Share
-              </Button>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-8 px-3 border-gray-800 hover:bg-gray-900"
-              onClick={() => handleShare("clipboard")}
-            >
-              <Share2 className="w-4 h-4 mr-1" />
-              Share
-            </Button>
-          </div>
-
-          <article className="prose prose-invert prose-purple max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: project.content }} />
-          </article>
-
-          <div className="pt-8 mt-12 border-t border-gray-800">
-            <h3 className="mb-6 text-xl font-bold">Related Projects</h3>
-            <div className="grid gap-6 md:grid-cols-2">
-              {project.relatedPosts && project.relatedPosts.length > 0 ? (
-                project.relatedPosts.map((relatedProject, index) => (
-                  <Link href={`/blog/${relatedProject.slug}/`} className="group" key={index}>
-                    <div className="space-y-3">
-                      <div className="relative h-48 overflow-hidden transition-colors border border-gray-800 rounded-lg group-hover:border-purple-500/50">
-                        <Image
-                          src={relatedProject.image || "/placeholder.svg"}
-                          alt={`${relatedProject.title} thumbnail`}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-2 text-xs text-purple-500">
-                          <BrainCircuit className="w-4 h-4" />
-                          <span>{relatedProject.category}</span>
-                        </div>
-                        <h3 className="font-medium transition-colors group-hover:text-purple-400">{relatedProject.title}</h3>
-                      </div>
-                    </div>
-                  </Link>
-                ))
-              ) : (
-                <div className="text-gray-400">No related projects found.</div>
-              )}
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <footer className="py-12 border-t border-gray-800">
-        <div className="container px-4 mx-auto">
-          <div className="max-w-3xl mx-auto text-center">
-            <Link href="/" className="text-xl font-bold tracking-tighter">
-              Code<span className="text-blue-500">Therapy</span>
-            </Link>
-            <p className="mt-4 mb-6 text-sm text-gray-400">
-              Exploring the cutting edge of artificial intelligence and machine learning.
+            {post.category}
+          </span>
+          <h1 className="max-w-[1000px] font-serif text-[34px] font-semibold leading-[1.15] text-ink md:text-[52px]">
+            {post.title}
+          </h1>
+          <div className="flex items-center gap-4">
+            <Monogram />
+            <p className="text-sm text-ink-soft">
+              CodeTherapy <span className="text-line">|</span> {post.date}
             </p>
-            <div className="flex justify-center space-x-4">
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Twitter className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Facebook className="w-5 h-5" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-white">
-                <Linkedin className="w-5 h-5" />
-              </Link>
-            </div>
-            <div className="pt-6 mt-8 text-sm text-gray-400 border-t border-gray-800">
-              <p>© {new Date().getFullYear()} CodeTherapy. All rights reserved.</p>
-            </div>
           </div>
+        </header>
+
+        <div className="relative h-[280px] w-full overflow-hidden rounded-3xl md:h-[480px]">
+          <Image
+            src={post.image}
+            alt={post.title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
-      </footer>
-    </div>
-  )
+
+        <div className="flex max-w-[820px] flex-col gap-6">
+          <p className="text-[19px] leading-[1.7] text-ink">{post.excerpt}</p>
+          {post.body?.map((paragraph) => (
+            <p
+              key={paragraph.slice(0, 40)}
+              className="text-[17px] leading-[1.75] text-ink-soft"
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        <section className="flex flex-col gap-8 border-t border-line pt-12">
+          <h2 className="font-serif text-[26px] font-semibold text-ink md:text-[32px]">
+            More from the Lab
+          </h2>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {related.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/blog/${item.slug}`}
+                className="group flex flex-col gap-4 rounded-2xl bg-white p-6 drop-shadow-[0px_8px_12px_rgba(30,34,41,0.02)]"
+              >
+                <div className="relative h-[160px] w-full shrink-0 overflow-hidden rounded-lg">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <span className="text-[13px] text-ink-soft opacity-60">
+                  {item.date}
+                </span>
+                <h3 className="font-serif text-xl font-semibold text-ink group-hover:text-sage">
+                  {item.title}
+                </h3>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="flex flex-col items-center gap-8 rounded-3xl bg-sage-soft px-8 py-20 text-center md:px-16">
+          <SectionLabel>Collaboration</SectionLabel>
+          <h2 className="max-w-[843px] font-serif text-[34px] font-semibold leading-[1.15] text-ink md:text-[48px]">
+            Join us in transforming healthcare.
+          </h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link href="/contact" className="btn-ink">
+              Get Involved
+            </Link>
+            <Link href="/projects" className="btn-outline-ink">
+              Explore Our Research
+            </Link>
+          </div>
+        </section>
+      </article>
+    </main>
+  );
 }
-
-

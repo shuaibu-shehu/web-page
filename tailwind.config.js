@@ -17,7 +17,27 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-manrope)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-newsreader)", "ui-serif", "Georgia", "serif"],
+      },
       colors: {
+        // CodeTherapy v2 palette (Figma: v2-* frames)
+        cream: "#faf8f2",
+        line: "#eae6db",
+        ink: {
+          DEFAULT: "#1e2229",
+          deep: "#11141a",
+          soft: "#454d49",
+        },
+        sage: {
+          DEFAULT: "#4d6d53",
+          soft: "#eaf0eb",
+        },
+        clay: {
+          DEFAULT: "#c4644f",
+          soft: "#f7ede9",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

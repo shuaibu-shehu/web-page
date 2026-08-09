@@ -1,726 +1,245 @@
-"use client"
-
-import { useState, useRef } from "react"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-    Heart,
-    Globe,
-    Shield,
-    Users,
-    ShieldCheck,
-    Network,
-    Search,
-    UserPlus,
-    Lightbulb,
-    Share2,
-    ArrowRight,
-    Play,
-    MapPin,
-    Code,
-    Stethoscope,
-    TrendingUp,
-    Filter,
-    Link,
-} from "lucide-react"
-import Footer from "@/components/footer"
+import Link from "next/link"
+import type { Metadata } from "next"
+import { ArrowRight } from "lucide-react"
 
-const teamMembers = [
-    {
-        id: 1,
-        name: "Mohammed Abdoullahi",
-        role: "Co-Founder & CEO",
-        location: "Mali",
-        flag: "🇲🇱",
-        specialty: "Global Health",
-        image:
-            "https://images.unsplash.com/photo-1594824388853-2c5899d87b29?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Former WHO epidemiologist who witnessed firsthand how technology gaps cost lives in rural communities. Amara founded CodeTherapy after seeing a pregnant woman walk 50km for care that could have been provided locally with the right tools.",
-        quote: "Every line of code we write should ask: will this reach the woman walking 50km for care?",
-    },
-    {
-        id: 2,
-        name: "Shuaibu Shehu",
-        role: "Co-Founder & CTO",
-        location: "Nigeria",
-        flag: "🇳🇬",
-        specialty: "AI/ML Engineering",
-        image:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Former Google AI researcher who left Silicon Valley to build technology that works in low-resource settings. Raj specializes in creating AI models that function offline and on basic hardware.",
-        quote: "The best AI is invisible - it just works, everywhere, for everyone.",
-    },
-    {
-        id: 3,
-        name: "Dr. Sarah Chen",
-        role: "Head of Clinical Research",
-        location: "Canada",
-        flag: "🇨🇦",
-        specialty: "Digital Health",
-        image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Pediatric surgeon turned digital health researcher. Sarah ensures our AI tools meet the highest clinical standards while remaining accessible to frontline health workers with minimal training.",
-        quote: "Technology should amplify human expertise, not replace human connection.",
-    },
-    {
-        id: 4,
-        name: "Kofi Asante",
-        role: "Community Partnerships Lead",
-        location: "Ghana",
-        flag: "🇬🇭",
-        specialty: "Community Health",
-        image:
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Community health advocate with 15 years of experience in rural health programs. Kofi ensures our solutions are co-created with the communities they serve.",
-        quote: "The best solutions come from listening, not assuming.",
-    },
-    {
-        id: 5,
-        name: "Dr. Maria Santos",
-        role: "Head of Ethics & Policy",
-        location: "Brazil",
-        flag: "🇧🇷",
-        specialty: "AI Ethics",
-        image:
-            "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Bioethicist and former UN advisor on AI governance. Maria ensures our work upholds the highest ethical standards and respects local values and practices.",
-        quote: "Ethical AI isn't a feature - it's the foundation.",
-    },
-    {
-        id: 6,
-        name: "James Ochieng",
-        role: "Field Operations Director",
-        location: "Kenya",
-        flag: "🇰🇪",
-        specialty: "Implementation",
-        image:
-            "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&h=400&auto=format&fit=crop&crop=face",
-        bio: "Former MSF logistics coordinator who understands the realities of delivering healthcare in challenging environments. James leads our field implementation teams.",
-        quote: "A solution that works in the lab but fails in the field isn't a solution.",
-    },
-]
+import SectionLabel from "@/components/section-label"
+import Reveal from "@/components/reveal"
+import StatsBand from "@/components/stats-band"
+import { values } from "@/lib/site-content"
 
-const impactStats = [
-    { label: "Lives Touched", value: "2.3M+", icon: Heart },
-    { label: "Countries Active", value: "23", icon: Globe },
-    { label: "Health Workers Trained", value: "15K+", icon: Users },
-    { label: "Open Source Models", value: "47", icon: Code },
-]
+export const metadata: Metadata = {
+  title: "About — CodeTherapy",
+  description:
+    "Where humanity guides technology. The story, mission and global collective behind CodeTherapy.",
+}
 
-const values = [
-    {
-        title: "Humanity First",
-        icon: Shield,
-        description:
-            "Technology must serve people, not profit. Every decision we make starts with asking: how does this help the most vulnerable?",
-        example: "We rejected a $50M acquisition offer because it would have compromised our open-source commitment.",
-    },
-    {
-        title: "Radical Inclusion",
-        icon: Users,
-        description: "We design with communities, never for them. Local wisdom guides our global solutions.",
-        example: "Our malaria prediction model was redesigned after rural health workers showed us patterns we missed.",
-    },
-    {
-        title: "Ethical Courage",
-        icon: ShieldCheck,
-        description:
-            "We reject exploitative AI practices, even when they're profitable. Privacy and dignity are non-negotiable.",
-        example: "We turned down partnerships with companies that wanted to monetize patient data.",
-    },
-    {
-        title: "Global Mindset",
-        icon: Network,
-        description:
-            "We honor local wisdom while building global solutions. What works in Mali informs what we build in India.",
-        example: "Our diagnostic tool incorporates traditional healing knowledge alongside modern medicine.",
-    },
-]
-
-const workProcess = [
-    {
-        step: 1,
-        title: "Problem Selection",
-        icon: Search,
-        description: "We only tackle challenges identified by frontline health workers, not Silicon Valley boardrooms.",
-    },
-    {
-        step: 2,
-        title: "Co-Creation",
-        icon: UserPlus,
-        description: "Rural health workers, patients, and communities help design every solution from day one.",
-    },
-    {
-        step: 3,
-        title: "Appropriate Technology",
-        icon: Lightbulb,
-        description: "If it doesn't work offline, on a $50 phone, in 45°C heat, it's not ready for deployment.",
-    },
-    {
-        step: 4,
-        title: "Open Impact",
-        icon: Share2,
-        description: "All non-sensitive models, tools, and learnings are open-sourced for maximum global benefit.",
-    },
+const team = [
+  {
+    name: "Mohammed Abdoullahi",
+    flag: "🇲🇱",
+    role: "CEO",
+    bio: "Co-founder & executive director guiding operations and deployments.",
+    photo: "/mahmud.jpeg",
+  },
+  {
+    name: "Shuaibu Shehu",
+    flag: "🇳🇬",
+    role: "CTO",
+    bio: "Co-founder leading machine learning pipelines and low-power hardware engineering.",
+    photo: "/shuaibu.jpeg",
+  },
+  {
+    name: "Dr. Ousmane Ly",
+    flag: "ML",
+    role: "Clinical Research",
+    bio: "Oversight of diagnostic verification protocols and trial coordination.",
+    photo: "/placeholder-user.jpg",
+  },
+  {
+    name: "Dr. Bourama Tangara",
+    flag: "🇬🇭",
+    role: "Community Partnerships",
+    bio: "Fostering regional trust, managing clinic integrations and onboarding.",
+    photo: "/placeholder-user.jpg",
+  },
+  {
+    name: "Dr Adama Bréhima Cissouma",
+    flag: "🇧🇷",
+    role: "Ethics",
+    bio: "Guiding data privacy compliance, model auditing, and clinical equity.",
+    photo: "/placeholder-user.jpg",
+  },
+  {
+    name: "Dr Moussa Camara",
+    flag: "🇰🇪",
+    role: "Field Operations",
+    bio: "Leading infrastructure set-up and direct support for rural health workers.",
+    photo: "/placeholder-user.jpg",
+  },
+  {
+    name: "Dr Ibrahim Sokoré",
+    flag: "🇰🇪",
+    role: "Field Operations",
+    bio: "Leading infrastructure set-up and direct support for rural health workers.",
+    photo: "/placeholder-user.jpg",
+  },
 ]
 
 export default function AboutPage() {
-    const [selectedFilter, setSelectedFilter] = useState("All")
-    const [selectedMember, setSelectedMember] = useState<null>(null)
-    const [selectedValue, setSelectedValue] = useState<{
-        title: string
-        icon: React.ComponentType<any>
-        description: string
-        example: string
-    } | null>(null)
-    const videoRef = useRef(null)
-
-    const filters = ["All", "Leadership", "Clinical", "Engineering", "Operations"]
-
-    const filteredTeam = teamMembers.filter((member) => {
-        if (selectedFilter === "All") return true
-        if (selectedFilter === "Leadership")
-            return member.role.includes("Co-Founder") || member.role.includes("CEO") || member.role.includes("CTO")
-        if (selectedFilter === "Clinical")
-            return member.specialty.includes("Health") || member.specialty.includes("Clinical")
-        if (selectedFilter === "Engineering")
-            return member.specialty.includes("AI") || member.specialty.includes("Engineering")
-        if (selectedFilter === "Operations")
-            return member.role.includes("Operations") || member.role.includes("Partnerships")
-        return true
-    })
-
-    return (
-        <div className="min-h-screen bg-transparent">
-            {/* Hero Section */}
-            <section className="relative flex items-center justify-center h-screen overflow-hidden text-white bg-black">
-                <div className="absolute inset-0">
-                    <Image
-                        src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2000&h=1200&auto=format&fit=crop"
-                        alt="Diverse hands converging around holographic heart over world map"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
-                </div>
-
-                <div className="relative z-10 max-w-4xl px-4 mx-auto text-center text-white">
-                    <h1 className="mb-6 text-5xl font-bold leading-tight md:text-7xl">
-                        Where <span className="text-yellow-400">Humanity</span>
-                        <br />
-                        Guides <span className="text-blue-400">Technology</span>
-                    </h1>
-                    <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-200 md:text-2xl">
-                        Building AI that serves the last mile first, because healthcare is a human right, not a privilege.
-                    </p>
-                    <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                        <Button size="lg" className="px-8 py-3 text-white bg-blue-600 hover:bg-blue-700">
-                            Our Impact <ArrowRight className="w-5 h-5 ml-2" />
-                        </Button>
-                        <Button
-                            size="lg"
-                            variant="outline"
-                            className="px-8 py-3 text-white border-white hover:bg-white hover:text-black"
-                        >
-                            <Play className="w-5 h-5 mr-2" />
-                            Watch Our Story
-                        </Button>
-                    </div>
-                </div>
-            </section>
-
-            {/* Our Story Section */}
-            <section className="py-20 text-white bg-black">
-                <div className="container px-4 mx-auto">
-                    <div className="grid items-center max-w-6xl gap-12 mx-auto lg:grid-cols-2">
-                        <div>
-                            <h2 className="mb-6 text-4xl font-bold text-gray-300">Our Story</h2>
-                            <div className="prose prose-lg text-gray-400">
-                                <p className="mb-4">
-                                    CodeTherapy began with a simple question: Why does a child in rural Mali have less access to
-                                    life-saving healthcare than a child in Manhattan?
-                                </p>
-                                <p className="mb-4">
-                                    In 2019, Dr. Amara Diallo was working with WHO in West Africa when she met Fatou, a pregnant woman who
-                                    had walked 50 kilometers to reach the nearest clinic. Fatou arrived too late. Her complications could
-                                    have been detected and managed locally with the right tools and training.
-                                </p>
-                                <p className="mb-4">
-                                    That night, Amara called her friend Raj Patel, an AI researcher at Google. "We're building incredible
-                                    technology," she said, "but it's not reaching the people who need it most." Six months later, they
-                                    left their prestigious positions to start CodeTherapy.
-                                </p>
-                                <p>
-                                    Today, we're a global collective of technologists, clinicians, and community advocates united by one
-                                    belief: technology should serve humanity's most vulnerable first, not last.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="relative">
-                            <Image
-                                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&h=600&auto=format&fit=crop"
-                                alt="Founders building first prototype in casual workshop setting"
-                                width={800}
-                                height={600}
-                                className="rounded-lg shadow-lg"
-                            />
-                            <div className="absolute p-4 bg-white rounded-lg shadow-lg -bottom-4 -right-4">
-                                <p className="text-sm font-medium text-gray-900">Amara & Raj</p>
-                                <p className="text-xs text-gray-600">Building our first prototype, 2020</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Mission & Vision */}
-            <section className="py-20">
-                <div className="container px-4 mx-auto">
-                    <div className="grid max-w-4xl gap-8 mx-auto md:grid-cols-2">
-                        <Card className="transition-colors border-2 border-blue-100 hover:border-blue-300">
-                            <CardHeader className="text-center">
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
-                                    <Heart className="w-8 h-8 text-blue-600" />
-                                </div>
-                                <CardTitle className="text-2xl font-bold text-gray-300">Our Mission</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-center text-gray-300">
-                                    To harness AI as a force for global health equity, ensuring that life-saving technology reaches the
-                                    most underserved communities first.
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="transition-colors border-2 border-green-100 hover:border-green-300">
-                            <CardHeader className="text-center">
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
-                                    <Globe className="w-8 h-8 text-green-600" />
-                                </div>
-                                <CardTitle className="text-2xl font-bold text-gray-300">Our Vision</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-center text-gray-300">
-                                    A world where geography doesn't determine the quality of care you receive, and where AI amplifies
-                                    human compassion at global scale.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </section>
-
-            {/* Values Grid */}
-            <section className="py-20 bg-black">
-                <div className="container px-4 mx-auto">
-                    <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-200">Our Values</h2>
-                        <p className="max-w-2xl mx-auto text-xl text-gray-300">
-                            These principles guide every decision we make, from code commits to partnership agreements.
-                        </p>
-                    </div>
-
-                    <div className="grid max-w-6xl gap-6 mx-auto md:grid-cols-2 lg:grid-cols-4">
-                        {values.map((value, index) => (
-                            <Card
-                                key={index}
-                                className="transition-all duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-1 hover:border-blue-700"
-                                onClick={() => setSelectedValue(value)}
-                            >
-                                <CardHeader className="text-center">
-                                    <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 bg-blue-100 rounded-full">
-                                        <value.icon className="w-6 h-6 text-blue-600" />
-                                    </div>
-                                    <CardTitle className="text-lg font-bold text-gray-200">{value.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm text-center text-gray-300">{value.description}</p>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Team Showcase */}
-            <section className="py-20">
-                <div className="container px-4 mx-auto">
-                    <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-300">Our Global Collective</h2>
-                        <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-400">
-                            Meet the diverse team of changemakers building technology that serves humanity.
-                        </p>
-
-                        {/* Filter Buttons */}
-                        <div className="flex flex-wrap justify-center gap-2 mb-8">
-                            {filters.map((filter) => (
-                                <Button
-                                    key={filter}
-                                    variant={selectedFilter === filter ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSelectedFilter(filter)}
-                                    className={selectedFilter === filter ? "bg-blue-600 hover:bg-blue-700" : ""}
-                                >
-                                    <Filter className="w-4 h-4 mr-1" />
-                                    {filter}
-                                </Button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Team Grid */}
-                    <div className="grid max-w-5xl gap-6 mx-auto mb-12 md:grid-cols-2 lg:grid-cols-3">
-                        {filteredTeam.map((member) => (
-                            <Dialog key={member.id}>
-                                <DialogTrigger asChild>
-                                    <Card className="transition-all duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-1">
-                                        <CardContent className="p-6 text-center">
-                                            <div className="relative w-24 h-24 mx-auto mb-4">
-                                                <Image
-                                                    src={member.image || "/placeholder.svg"}
-                                                    alt={member.name}
-                                                    fill
-                                                    className="object-cover rounded-full"
-                                                />
-                                                <div className="absolute text-2xl -bottom-1 -right-1">{member.flag}</div>
-                                            </div>
-                                            <h3 className="mb-1 font-bold text-gray-900">{member.name}</h3>
-                                            <p className="mb-1 text-sm text-blue-600">{member.role}</p>
-                                            <div className="flex items-center justify-center text-xs text-gray-500">
-                                                <MapPin className="w-3 h-3 mr-1" />
-                                                {member.location}
-                                            </div>
-                                            <Badge variant="secondary" className="mt-2 text-xs">
-                                                {member.specialty}
-                                            </Badge>
-                                        </CardContent>
-                                    </Card>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-2xl">
-                                    <DialogHeader>
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <div className="relative w-16 h-16">
-                                                <Image
-                                                    src={member.image || "/placeholder.svg"}
-                                                    alt={member.name}
-                                                    fill
-                                                    className="object-cover rounded-full"
-                                                />
-                                            </div>
-                                            <div>
-                                                <DialogTitle className="text-xl">{member.name}</DialogTitle>
-                                                <DialogDescription className="font-medium text-blue-600">{member.role}</DialogDescription>
-                                                <div className="flex items-center mt-1 text-sm text-gray-500">
-                                                    <MapPin className="w-3 h-3 mr-1" />
-                                                    {member.location} {member.flag}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </DialogHeader>
-                                    <div className="space-y-4">
-                                        <p className="text-gray-700">{member.bio}</p>
-                                        <blockquote className="pl-4 italic text-gray-600 border-l-4 border-blue-500">
-                                            "{member.quote}"
-                                        </blockquote>
-                                    </div>
-                                </DialogContent>
-                            </Dialog>
-                        ))}
-                    </div>
-
-                    {/* Group Photo */}
-                    <div className="text-center">
-                        <div className="relative inline-block">
-                            <Image
-                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&h=600&auto=format&fit=crop"
-                                alt="Team collaborating outdoors"
-                                width={1000}
-                                height={600}
-                                className="rounded-lg shadow-lg"
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center transition-opacity rounded-lg opacity-0 bg-black/20 hover:opacity-100">
-                                <Button className="text-black bg-white/90 hover:bg-white">
-                                    <Play className="w-4 h-4 mr-2" />
-                                    Watch Culture Reel
-                                </Button>
-                            </div>
-                        </div>
-                        <p className="mt-2 text-sm text-gray-600">Annual team hackathon in Bamako, Mali 2023</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* How We Work */}
-            <section className="py-20 ">
-                <div className="container px-4 mx-auto">
-                    <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-400">How We Work</h2>
-                        <p className="max-w-2xl mx-auto text-xl text-gray-300">
-                            Our methodology ensures every solution is community-driven, culturally appropriate, and globally scalable.
-                        </p>
-                    </div>
-
-                    <div className="max-w-4xl mx-auto">
-                        {workProcess.map((step, index) => (
-                            <div key={index} className="flex items-start gap-6 mb-8 last:mb-0">
-                                <div className="flex-shrink-0">
-                                    <div className="flex items-center justify-center w-12 h-12 text-lg font-bold text-white bg-blue-600 rounded-full">
-                                        {step.step}
-                                    </div>
-                                </div>
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <step.icon className="w-6 h-6 text-blue-600" />
-                                        <h3 className="text-xl font-bold text-gray-500">{step.title}</h3>
-                                    </div>
-                                    <p className="text-gray-300">{step.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Impact Showcase */}
-            <section className="py-20">
-                <div className="container px-4 mx-auto">
-                    <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-400">Our Impact</h2>
-                        <p className="max-w-2xl mx-auto text-xl text-gray-300">
-                            Real solutions creating measurable change in communities worldwide.
-                        </p>
-                    </div>
-
-                    {/* Impact Stats */}
-                    <div className="grid max-w-4xl gap-6 mx-auto mb-16 md:grid-cols-4">
-                        {impactStats.map((stat, index) => (
-                            <Card key={index} className="text-center">
-                                <CardContent className="p-6">
-                                    <stat.icon className="w-8 h-8 mx-auto mb-3 text-blue-600" />
-                                    <div className="mb-1 text-3xl font-bold text-gray-700">{stat.value}</div>
-                                    <div className="text-sm text-gray-600">{stat.label}</div>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-
-                    {/* Impact Stories */}
-                    {/* <div className="grid max-w-6xl gap-8 mx-auto lg:grid-cols-3">
-                        <Card className="transition-shadow hover:shadow-lg">
-                            <CardHeader>
-                                <div className="flex items-center justify-center w-12 h-12 mb-3 bg-pink-100 rounded-full">
-                                    <Heart className="w-6 h-6 text-pink-600" />
-                                </div>
-                                <CardTitle className="text-xl">Maternal Health</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="mb-4 text-gray-600">
-                                    AI-powered risk assessment reduced maternal mortality by 40% in pilot regions.
-                                </p>
-                                <div className="p-4 rounded-lg bg-gray-50">
-                                    <div className="flex justify-between mb-2 text-sm">
-                                        <span>Before</span>
-                                        <span>After</span>
-                                    </div>
-                                    <div className="w-full h-2 mb-1 bg-gray-200 rounded-full">
-                                        <div className="h-2 bg-red-500 rounded-full" style={{ width: "60%" }}></div>
-                                    </div>
-                                    <div className="w-full h-2 bg-gray-200 rounded-full">
-                                        <div className="h-2 bg-green-500 rounded-full" style={{ width: "36%" }}></div>
-                                    </div>
-                                    <p className="mt-2 text-xs text-gray-500">Maternal mortality rate per 100,000 births</p>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="transition-shadow hover:shadow-lg">
-                            <CardHeader>
-                                <div className="flex items-center justify-center w-12 h-12 mb-3 bg-green-100 rounded-full">
-                                    <TrendingUp className="w-6 h-6 text-green-600" />
-                                </div>
-                                <CardTitle className="text-xl">Disease Tracking</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="mb-4 text-gray-600">
-                                    Outbreak prediction models provide 2-week early warning for disease surveillance.
-                                </p>
-                                <div className="relative h-32 overflow-hidden rounded-lg bg-gray-50">
-                                    <Image
-                                        src="https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?q=80&w=400&h=200&auto=format&fit=crop"
-                                        alt="Disease tracking map visualization"
-                                        fill
-                                        className="object-cover"
-                                    />
-                                    <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
-                                        <Badge className="bg-green-600">14 Days Early Warning</Badge>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="transition-shadow hover:shadow-lg">
-                            <CardHeader>
-                                <div className="flex items-center justify-center w-12 h-12 mb-3 bg-blue-100 rounded-full">
-                                    <Stethoscope className="w-6 h-6 text-blue-600" />
-                                </div>
-                                <CardTitle className="text-xl">Diagnostic Access</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="mb-4 text-gray-600">
-                                    Mobile diagnostics reduced cost by 90% and increased access by 500%.
-                                </p>
-                                <div className="space-y-3">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-sm">Cost Reduction</span>
-                                        <Badge variant="secondary">90% ↓</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-sm">Access Increase</span>
-                                        <Badge variant="secondary">500% ↑</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-sm">Time to Diagnosis</span>
-                                        <Badge variant="secondary">75% ↓</Badge>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div> */}
-                </div>
-            </section>
-
-            {/* Join Section */}
-            {/* <section className="py-20 bg-gray-50">
-                <div className="container px-4 mx-auto">
-                    <div className="mb-12 text-center">
-                        <h2 className="mb-4 text-4xl font-bold text-gray-900">Join Our Mission</h2>
-                        <p className="max-w-2xl mx-auto text-xl text-gray-600">
-                            Whether you're a technologist, healthcare professional, or passionate advocate, there's a place for you in
-                            our global collective.
-                        </p>
-                    </div>
-
-                    <div className="grid max-w-5xl gap-8 mx-auto lg:grid-cols-3">
-                        <Card className="text-center transition-shadow hover:shadow-lg">
-                            <CardHeader>
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
-                                    <Code className="w-8 h-8 text-blue-600" />
-                                </div>
-                                <CardTitle className="text-xl">Innovators</CardTitle>
-                                <CardDescription>Bring your skills to build technology that saves lives</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="mb-6 text-gray-600">
-                                    Join our engineering, design, and research teams to create AI solutions that work in the world's most
-                                    challenging environments.
-                                </p>
-                                <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                                    View Careers <ArrowRight className="w-4 h-4 ml-2" />
-                                </Button>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="text-center transition-shadow hover:shadow-lg">
-                            <CardHeader>
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full">
-                                    <Users className="w-8 h-8 text-green-600" />
-                                </div>
-                                <CardTitle className="text-xl">Partners</CardTitle>
-                                <CardDescription>Let's co-create solutions for your community</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="mb-6 text-gray-600">
-                                    Healthcare organizations, NGOs, and governments partnering with us to deploy AI solutions that respect
-                                    local contexts.
-                                </p>
-                                <Button className="w-full bg-green-600 hover:bg-green-700">
-                                    Collaborate <ArrowRight className="w-4 h-4 ml-2" />
-                                </Button>
-                            </CardContent>
-                        </Card>
-
-                        <Card className="text-center transition-shadow hover:shadow-lg">
-                            <CardHeader>
-                                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full">
-                                    <Heart className="w-8 h-8 text-yellow-600" />
-                                </div>
-                                <CardTitle className="text-xl">Allies</CardTitle>
-                                <CardDescription>Support tools that reach the last mile first</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="mb-6 text-gray-600">
-                                    Your support helps us keep our tools open-source and accessible to communities that need them most.
-                                </p>
-                                <Button className="w-full bg-yellow-600 hover:bg-yellow-700">
-                                    Donate <ArrowRight className="w-4 h-4 ml-2" />
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </section> */}
-
-            {/* Closing Banner */}
-            <section className="relative py-20 overflow-hidden">
-                <div className="absolute inset-0">
-                    <Image
-                        src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?q=80&w=2000&h=800&auto=format&fit=crop"
-                        alt="Sunrise over rural clinic"
-                        fill
-                        className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 to black/30"></div>
-                </div>
-
-                <div className="container relative z-10 px-4 mx-auto text-center">
-                    <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-                        Technology that reaches
-                        <br />
-                        <span className="text-yellow-400">the last mile first.</span>
-                    </h2>
-                    <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-200">
-                        Because every person, regardless of where they're born, deserves access to life-saving healthcare.
-                    </p>
-                    <Button size="lg" className="px-8 py-3 text-black bg-white hover:bg-gray-100">
-                        Start Your Journey <ArrowRight className="w-5 h-5 ml-2" />
-                    </Button>
-                </div>
-            </section>
-
-            {/* Value Detail Modal */}
-            {selectedValue && (
-                <Dialog open={!!selectedValue} onOpenChange={() => setSelectedValue(null)}>
-                    <DialogContent className="max-w-2xl">
-                        <DialogHeader>
-                            <div className="flex items-center gap-4 mb-4">
-                                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full">
-                                    <selectedValue.icon className="w-6 h-6 text-blue-600" />
-                                </div>
-                                <DialogTitle className="text-2xl">{selectedValue.title}</DialogTitle>
-                            </div>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                            <p className="text-gray-300">{selectedValue.description}</p>
-                            <div className="p-4 rounded-lg ">
-                                <h4 className="mb-2 font-semibold text-gray-400">Real Example:</h4>
-                                <p className="text-gray-300">{selectedValue.example}</p>
-                            </div>
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            )}
-
-             <Footer/>
+  return (
+    <main className="bg-cream">
+      {/* ---------------------------------------------------------- hero */}
+      <section className="flex flex-col items-center gap-12 py-16 shell lg:py-20">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <SectionLabel size="md">Our Story</SectionLabel>
+          <h1 className="max-w-[900px] font-serif text-[40px] font-semibold leading-[1.1] text-ink md:text-[52px] lg:text-[64px]">
+            Where Humanity Guides Technology
+          </h1>
         </div>
-    )
+        <div className="relative h-[320px] w-full overflow-hidden rounded-bl-[24px] rounded-br-[180px] rounded-tl-[180px] rounded-tr-[24px] md:h-[480px]">
+          <Image
+            src="/about-hero.png"
+            alt="The CodeTherapy team at work"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      </section>
+
+      {/* -------------------------------------------------- origin story */}
+      <section className="flex flex-col items-center gap-12 pt-16 pb-24 shell lg:flex-row lg:gap-20 lg:pb-32">
+        <div className="flex flex-col w-full gap-6 lg:w-1/2">
+          <SectionLabel tone="clay" size="md">The Catalyst</SectionLabel>
+          <h2 className="font-serif text-[30px] font-semibold leading-[1.2] text-ink md:text-[40px]">
+            A preventable journey that changed everything.
+          </h2>
+          <Reveal className="text-base leading-[1.7] text-ink-soft">
+            In 2019, while working with the World Health Organization in West Africa, Dr. Amara Diallo
+            met Fatou. Heavily pregnant and facing severe complications, Fatou had walked over 50
+            kilometers in the blistering heat to reach the nearest regional clinic.
+          </Reveal>
+          <Reveal delay={120} className="text-base leading-[1.7] text-ink-soft">
+            Tragically, she arrived too late. Her complications were common, predictable, and
+            completely manageable with early, localized ultrasound detection.
+          </Reveal>
+          <Reveal delay={240} className="text-base leading-[1.7] text-ink-soft">
+            That evening, deeply shaken, Amara called her colleague and computational scientist,
+            Shuaibu Shehu: &ldquo;We are designing incredible systems for massive hospitals, but the
+            technology is simply not reaching the last mile. We need to flip the paradigm.&rdquo; Six
+            months later, CodeTherapy was born.
+          </Reveal>
+        </div>
+
+        <div className="flex flex-col w-full gap-4 lg:w-1/2">
+          <div className="relative h-[300px] w-full overflow-hidden rounded-bl-[200px] rounded-br-[24px] rounded-tl-[24px] rounded-tr-[200px] md:h-[440px]">
+            <Image
+              src="/v2/about-origin.png"
+              alt="Building the first CodeTherapy prototype in Bamako, 2020"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <p className="text-[13px] font-semibold text-ink-soft opacity-60">
+            Building our first prototype, Bamako 2020.
+          </p>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------- mission / vision */}
+      <section className="grid grid-cols-1 gap-8 py-16 shell lg:grid-cols-2 lg:py-20">
+        <div className="flex flex-col gap-5 p-10 rounded-3xl bg-sage-soft">
+          <SectionLabel size="md">Our Mission</SectionLabel>
+          <h2 className="font-serif text-[26px] font-semibold text-ink md:text-[32px]">
+            Harnessing AI for global health equity.
+          </h2>
+          <p className="text-base leading-[1.6] text-ink-soft">
+            We are dedicated to building robust, clinically-validated diagnostic systems that run
+            locally, ensuring world-class medical intelligence is present in every low-resource clinic
+            across the globe.
+          </p>
+        </div>
+        <div className="flex flex-col gap-5 p-10 rounded-3xl bg-clay-soft">
+          <SectionLabel tone="clay" size="md">Our Vision</SectionLabel>
+          <h2 className="font-serif text-[26px] font-semibold text-ink md:text-[32px]">
+            A world where geography doesn&rsquo;t dictate care.
+          </h2>
+          <p className="text-base leading-[1.6] text-ink-soft">
+            We envision an open healthcare ecosystem where advanced tools are shared freely,
+            empowering frontline workers to make precise, early interventions regardless of their
+            location or infrastructure.
+          </p>
+        </div>
+      </section>
+
+      {/* -------------------------------------------------------- values */}
+      <section className="flex flex-col gap-12 py-16 shell lg:py-20">
+        <header className="flex flex-col items-center gap-4 text-center">
+          <SectionLabel size="md">What Drives Us</SectionLabel>
+          <h2 className="font-serif text-[32px] font-semibold text-ink md:text-[44px]">
+            Our Core Ideals
+          </h2>
+        </header>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {values.map(({ icon: Icon, title, body }, i) => (
+            <Reveal key={title} delay={i * 80}>
+              <div className="flex flex-col h-full gap-4 bg-white border rounded-2xl border-line p-7">
+                <span className="flex size-11 items-center justify-center rounded-[22px] bg-clay-soft">
+                  <Icon className="size-5 text-clay" />
+                </span>
+                <h3 className="font-serif text-[22px] font-semibold text-ink">{title}</h3>
+                <p className="text-sm leading-[1.5] text-ink-soft">{body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------- team */}
+      <section className="flex flex-col gap-12 py-16 shell lg:py-20">
+        <header className="flex flex-col items-center gap-4 text-center">
+          <SectionLabel size="md">The Team</SectionLabel>
+          <h2 className="font-serif text-[32px] font-semibold text-ink md:text-[44px]">
+            Our Global Collective
+          </h2>
+        </header>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {team.map((member, i) => (
+            <Reveal key={member.name} delay={(i % 3) * 80}>
+              <article className="flex flex-col h-full overflow-hidden bg-white border rounded-2xl border-line">
+                {/*
+                  A square well is the shape a headshot is already close to, so it
+                  fills edge to edge with almost nothing lost: a 1:1 portrait keeps
+                  every pixel, and a typical 4:5 loses ~9% off the bottom. The crop
+                  sits high so the trim always comes off the chest, never the face.
+                  Wide environmental shots give up side background instead.
+                */}
+                <div className="relative w-full border-b aspect-square shrink-0 border-line bg-sage-soft">
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover object-[center_25%]"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 px-5 pt-5 pb-6">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-serif text-xl font-semibold text-ink">{member.name}</h3>
+                    <span className="text-lg leading-none">{member.flag}</span>
+                  </div>
+                  <p className="text-[13px] font-semibold uppercase text-sage">{member.role}</p>
+                  <p className="text-[13px] leading-[1.4] text-ink-soft">{member.bio}</p>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* -------------------------------------------------------- impact */}
+      <StatsBand />
+
+      {/* ----------------------------------------------------------- cta */}
+      <section className="py-16 shell lg:py-20">
+        <div className="flex flex-col items-center gap-8 px-8 py-20 text-center rounded-3xl bg-sage-soft md:px-16">
+          <SectionLabel size="md">Get Involved</SectionLabel>
+          <h2 className="max-w-[800px] font-serif text-[34px] font-semibold leading-[1.15] text-ink md:text-[48px]">
+            Join our mission to democratize healthcare.
+          </h2>
+          <p className="max-w-[700px] text-base leading-[1.6] text-ink-soft">
+            We&rsquo;re always seeking collaborators, research institutions, and medical workers
+            passionate about expanding localized AI solutions. Let&rsquo;s make an impact together.
+          </p>
+          <Link href="/contact" className="btn-ink group">
+            Start a Conversation
+            <ArrowRight className="size-[14px] transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      </section>
+    </main>
+  )
 }
