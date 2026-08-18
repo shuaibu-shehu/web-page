@@ -14,6 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import BrandMark from "@/components/brand-mark";
 
 /**
  * `sidebar` from cms-dashboard-overview — 240px, dark #1e2229, sage active item.
@@ -37,14 +38,9 @@ export default function AdminSidebar({ version }: { version: string }) {
   return (
     <aside className="flex w-[240px] shrink-0 flex-col gap-8 self-stretch bg-ink-deep px-4 py-6">
       <div className="flex items-center gap-3">
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-admin-sage text-lg font-extrabold text-white">
-          CT
-        </span>
-        <span className="flex flex-col gap-0.5">
-          <span className="font-bold text-white">CodeTherapy</span>
-          <span className="w-fit rounded bg-[#2d323e] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-admin-sage">
-            Admin Panel
-          </span>
+        <BrandMark size={32} textClass="font-sans font-bold text-white text-[16px]" />
+        <span className="w-fit rounded bg-[#2d323e] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-admin-sage">
+          Admin Panel
         </span>
       </div>
 
