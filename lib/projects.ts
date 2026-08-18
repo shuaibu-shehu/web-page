@@ -5,21 +5,21 @@ export type Project = {
   headline: string
   description: string
   tag: string
-  tagTone: "sage" | "clay"
+  tagTone: string // "sage" | "clay" (plain string in the DB rows)
   date: string
   image: string
   heroImage: string
   byline: string
   publishedOn: string
   readTime: string
-  body: string[]
+  body: string[] | unknown // DB rows arrive as JsonValue; only detail pages read it
   /** Programme facts. `projectDetails()` renders these as the detail-page card. */
   partners: string
   location: string
   timeline: string
   status: string
   /** clay = earlier stage, sage = validated in clinic. Matches the site's palette semantics. */
-  statusTone: "sage" | "clay"
+  statusTone: string // "sage" | "clay"
   technologies: string
   /**
    * Peer-reviewed publication, when there is one. Omit for unpublished work —

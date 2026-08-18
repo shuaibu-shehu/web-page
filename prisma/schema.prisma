@@ -1,0 +1,181 @@
+// CodeTherapy CMS — PostgreSQL (Neon).
+//
+// Seed data comes from prisma/seed.ts, which imports the existing static
+// content in lib/projects.ts, lib/posts.ts and the in-page arrays.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// Admin portal accounts (Settings → Users tab manages these).
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("admin")
+  /// Staff directory fields (Team screen).
+  title        String   @default("")
+  department   String   @default("")
+  status       String   @default("active") // "active" | "onLeave"
+  createdAt    DateTime @default(now())
+}
+
+/// Self-hosted pageview tracking — the "Monthly Visitors" KPI and any
+/// future analytics queries read from here. No third-party analytics service.
+/// Privacy rules: no raw IPs are stored, only a coarse country code; the
+/// anonymous visitor id is a random localStorage string, not personal data;
+/// bots are filtered before insert; the admin portal never fires the beacon.
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String?
+  country   String?
+  browser   String?
+  os        String?
+  anonId    String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([anonId])
+}
+
+/// Long-term analytics history — monthly aggregates rolled up from PageView
+/// before raw rows are pruned (6-month retention). One row per month: tiny.
+model MonthlyStat {
+  month     String @id // "YYYY-MM" (UTC)
+  visitors  Int
+  pageviews Int
+}
+
+/// Inbound inquiries from the public contact + newsletter forms.
+model Lead {
+  id           String   @id @default(cuid())
+  source       String // "contact" | "newsletter"
+  inquiryType  String?
+  name         String
+  email        String
+  organization String?
+  message      String
+  status       String   @default("new") // "new" | "reviewed"
+  createdAt    DateTime @default(now())
+}
+
+/// Research programs — mirrors the Project type in lib/projects.ts.
+model Project {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  title        String
+  headline     String
+  description  String
+  tag          String
+  tagTone      String // "sage" | "clay"
+  date         String
+  image        String
+  heroImage    String
+  byline       String
+  publishedOn  String
+  readTime     String
+  body         Json // string[]
+  partners     String
+  location     String
+  timeline     String
+  status       String
+  statusTone   String // "sage" | "clay"
+  technologies String
+  paperJournal String?
+  paperUrl     String?
+  /// "Show on public site" — public pages only render published projects.
+  published    Boolean  @default(true)
+  /// Editor sections from cms-project-editor — no public rendering yet.
+  leadResearcher String?
+  videoUrl       String?
+  milestones     Json? // [{ title, date, status }]
+  publicationEntries Json? // [{ title, journal, status }]
+  /// CMS card metrics (projects management screen) — not rendered publicly.
+  completion   Int      @default(0)
+  publications Int      @default(0)
+  teamSize     Int      @default(0)
+  partnerCount Int      @default(0)
+  updatedAt    DateTime @updatedAt
+}
+
+/// News articles — the dashboard's statuses are draft | underReview | published.
+model Post {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  excerpt       String
+  category      String
+  categoryTone  String // "sage" | "clay"
+  date          String
+  image         String
+  body          Json? // string[] — full article copy
+  status        String   @default("draft") // "draft" | "underReview" | "published"
+  authorName    String   @default("CodeTherapy")
+  updatedAt     DateTime @updatedAt
+}
+
+/// About page — Our Global Collective.
+model TeamMember {
+  id    String @id @default(cuid())
+  name  String
+  flag  String
+  role  String
+  bio   String
+  photo String
+  order Int    @default(0)
+}
+
+/// Partnerships page — Collaborative Alliances cards.
+model Partner {
+  id      String @id @default(cuid())
+  initial String
+  name    String
+  region  String
+  type    String // "Research Partner" | "Clinical Partner" | "Strategic Partner"
+  body    String
+  order   Int    @default(0)
+  /// Partnerships management card fields.
+  category          String @default("Academic") // Academic | Healthcare | Technology | NGO
+  affiliationStatus String @default("Active")
+  startDate         String @default("")
+  contact           String @default("")
+}
+
+/// FAQ page rows.
+model Faq {
+  id       String @id @default(cuid())
+  category String
+  question String
+  answer   String
+  order    Int    @default(0)
+  /// "Published" / "Draft" on the FAQ management screen.
+  status   String @default("published")
+}
+
+/// Media Library — files stored on Cloudinary, only URLs live here.
+model MediaAsset {
+  id         String   @id @default(cuid())
+  url        String
+  publicId   String
+  format     String
+  size       Int // bytes
+  alt        String?
+  type       String   @default("image") // image | video | document
+  dimensions String?
+  uploadedBy String?
+  createdAt  DateTime @default(now())
+}
+
+/// Site settings (Settings → General) and SEO defaults.
+model Setting {
+  key   String @id
+  value Json
+}

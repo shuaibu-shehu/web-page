@@ -20,6 +20,10 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-manrope)", "ui-sans-serif", "system-ui", "sans-serif"],
         serif: ["var(--font-newsreader)", "ui-serif", "Georgia", "serif"],
+        // Admin (CMS) faces — cms-* frames
+        admin: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        geist: ["var(--font-geist-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        "geist-mono": ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       colors: {
         // CodeTherapy v2 palette (Figma: v2-* frames)
@@ -38,6 +42,10 @@ module.exports = {
           DEFAULT: "#c4644f",
           soft: "#f7ede9",
         },
+        // Admin (CMS) palette — cms-* frames. Neutrals are Tailwind grays.
+        "admin-sage": "#4a7c59",
+        "admin-clay": "#c2703e",
+        "admin-danger": "#dc2626",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
