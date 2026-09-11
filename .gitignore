@@ -9,6 +9,8 @@
 
 # production
 /build
+CLAUDE.md
+
 
 # debug
 npm-debug.log*
@@ -18,9 +20,10 @@ yarn-error.log*
 
 # env files
 .env*
-
+claude-deepseek.sh
 # vercel
 .vercel
+.claude
 
 # typescript
 *.tsbuildinfo

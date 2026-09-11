@@ -1,45 +1,39 @@
 "use client";
 
 import { useState } from "react";
-import emailJs from "@emailjs/browser";
+import { useFormStatus } from "react-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { submitNewsletter } from "@/app/(site)/contact/actions";
 
 /** `newsletter-box` input + pill button from the v2 blog page. */
 export default function NewsletterForm() {
   const { toast } = useToast();
   const [email, setEmail] = useState("");
-  const [sending, setSending] = useState(false);
+  const [pending, setPending] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSending(true);
+    setPending(true);
+    const formData = new FormData();
+    formData.append("email", email);
 
-    try {
-      await emailJs.send(
-        process.env.NEXT_PUBLIC_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_TEMPLATE_ID!,
-        {
-          from_name: "Newsletter signup",
-          to_name: "CodeTherapy",
-          from_email: email,
-          to_email: "contact@codetherapy.ml",
-          message: `New newsletter subscription request from ${email}.`,
-        },
-        process.env.NEXT_PUBLIC_PUBLIC_KEY,
-      );
+    const result = await submitNewsletter({ ok: true, emailed: false }, formData);
+    setPending(false);
+
+    if (result.ok) {
       toast({
         title: "You're subscribed",
-        description: "We'll send research updates straight to your inbox.",
+        description: result.emailed
+          ? "We'll send research updates straight to your inbox."
+          : "You're on the list — research updates will arrive once email is configured.",
       });
       setEmail("");
-    } catch {
+    } else {
       toast({
         title: "Subscription failed",
-        description: "Please try again, or email us at contact@codetherapy.ml.",
+        description: result.error,
         variant: "destructive",
       });
-    } finally {
-      setSending(false);
     }
   }
 
@@ -57,12 +51,8 @@ export default function NewsletterForm() {
         aria-label="Email address"
         className="h-12 flex-1 rounded-[30px] border border-line bg-cream px-4 text-sm text-ink outline-none transition-colors placeholder:text-ink-soft/60 focus:border-sage"
       />
-      <button
-        type="submit"
-        disabled={sending}
-        className="btn-sage shrink-0 disabled:opacity-60"
-      >
-        {sending ? "Subscribing…" : "Subscribe"}
+      <button type="submit" disabled={pending} className="btn-sage shrink-0 disabled:opacity-60">
+        {pending ? "Subscribing…" : "Subscribe"}
       </button>
     </form>
   );

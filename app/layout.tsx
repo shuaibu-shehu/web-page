@@ -1,10 +1,10 @@
 import type React from "react";
 import "./globals.css";
-import { Manrope, Newsreader } from "next/font/google";
+import { Inter, Manrope, Newsreader } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import SiteHeader from "@/components/site-header";
-import SiteFooter from "@/components/site-footer";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -20,6 +20,16 @@ const newsreader = Newsreader({
   adjustFontFallback: false,
 });
 
+// Admin (CMS) faces: Inter for the UI, Geist for the login branding panel.
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const geist = GeistSans;
+const geistMono = GeistMono;
+
 export const metadata: Metadata = {
   title: "CodeTherapy",
   description:
@@ -32,7 +42,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${newsreader.variable}`}>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${newsreader.variable} ${inter.variable} ${geist.variable} ${geistMono.variable}`}
+    >
       <head>
         {/*
           Opt in to scroll reveals before first paint. Runs only when JS is
@@ -46,9 +59,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-cream font-sans text-ink antialiased">
-        <SiteHeader />
         {children}
-        <SiteFooter />
         <Toaster />
       </body>
     </html>
