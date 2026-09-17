@@ -129,7 +129,7 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="flex items-center gap-2 rounded-lg bg-admin-sage px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b] disabled:opacity-60"
+            className="flex items-center gap-2 rounded-lg bg-admin-azure px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b] disabled:opacity-60"
           >
             <Upload className="size-4" />
             {uploading ? "Uploading…" : "Upload Files"}
@@ -158,7 +158,7 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
           Storage Used: {formatBytes(stats.bytes)} / 10 GB
           <span className="h-1.5 w-[140px] overflow-hidden rounded bg-gray-100">
             <span
-              className="block h-full rounded bg-admin-sage"
+              className="block h-full rounded bg-admin-azure"
               style={{ width: `${Math.min(100, (stats.bytes / (10 * 1024 * 1024 * 1024)) * 100)}%` }}
             />
           </span>
@@ -211,10 +211,10 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
                   onClick={() => setSelectedId(asset.id)}
                   className={cn(
                     "flex flex-col gap-2 rounded-xl border bg-white p-2 text-left transition-colors",
-                    selectedId === asset.id ? "border-2 border-admin-sage" : "border-gray-200 hover:border-gray-300",
+                    selectedId === asset.id ? "border-2 border-admin-azure" : "border-gray-200 hover:border-gray-300",
                   )}
                 >
-                  <span className="relative flex h-24 w-full items-center justify-center overflow-hidden rounded-lg bg-sage-soft">
+                  <span className="relative flex h-24 w-full items-center justify-center overflow-hidden rounded-lg bg-azure-soft">
                     {asset.type === "image" ? (
                       <Image
                         src={asset.url}
@@ -235,7 +235,7 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
                         {asset.publicId.split("/").pop()}.{asset.format}
                       </span>
                       {!asset.used && (
-                        <span className="shrink-0 rounded bg-[#fdf1ea] px-1.5 py-0.5 text-[10px] font-bold uppercase text-admin-clay">
+                        <span className="shrink-0 rounded bg-[#e7ecf1] px-1.5 py-0.5 text-[10px] font-bold uppercase text-admin-navy">
                           Unused
                         </span>
                       )}
@@ -280,7 +280,7 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
           <h2 className="font-bold text-ink">File Details</h2>
           {selected ? (
             <>
-              <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden rounded-lg bg-sage-soft">
+              <div className="relative flex h-[160px] w-full items-center justify-center overflow-hidden rounded-lg bg-azure-soft">
                 {selected.type === "image" ? (
                   <Image
                     src={selected.url}
@@ -321,7 +321,7 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
                   <p
                     className={
                       "text-[13px] font-semibold " +
-                      (selected.used ? "text-admin-sage" : "text-admin-clay")
+                      (selected.used ? "text-admin-azure" : "text-admin-navy")
                     }
                   >
                     {selected.used ? "Referenced in content" : "Unused — safe to delete"}
@@ -344,7 +344,7 @@ export default function MediaLibrary({ assets }: { assets: Asset[] }) {
                 <button
                   type="button"
                   onClick={() => copyUrl(selected.url)}
-                  className="flex h-[38px] items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 text-[13px] font-semibold text-gray-600 transition-colors hover:border-admin-sage hover:text-admin-sage"
+                  className="flex h-[38px] items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-50 text-[13px] font-semibold text-gray-600 transition-colors hover:border-admin-azure hover:text-admin-azure"
                 >
                   <Copy className="size-3.5" />
                   Copy URL

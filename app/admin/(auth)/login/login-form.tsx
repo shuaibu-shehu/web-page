@@ -11,7 +11,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex h-11 w-full items-center justify-center rounded-lg bg-admin-sage text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b] disabled:opacity-60"
+      className="flex h-11 w-full items-center justify-center rounded-lg bg-admin-azure text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b] disabled:opacity-60"
     >
       {pending ? "Signing in…" : "Sign In"}
     </button>
@@ -19,7 +19,7 @@ function SubmitButton() {
 }
 
 const fieldClass =
-  "h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-sm text-ink outline-none transition-colors placeholder:text-[#8d94a0] focus:border-admin-sage";
+  "h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-sm text-ink outline-none transition-colors placeholder:text-[#7d8c99] focus:border-admin-azure";
 
 export default function LoginForm({ next }: { next?: string }) {
   const [state, formAction] = useFormState(signIn, { error: null });
@@ -89,13 +89,13 @@ export default function LoginForm({ next }: { next?: string }) {
               name="remember"
               checked={remember}
               onChange={(e) => setRemember(e.target.checked)}
-              className="size-4 rounded border-gray-300 accent-admin-sage"
+              className="size-4 rounded border-gray-300 accent-admin-azure"
             />
             <span className="text-[13px] text-[#4b5563]">Remember me</span>
           </label>
           <button
             type="button"
-            className="text-[13px] font-medium text-admin-sage hover:underline"
+            className="text-[13px] font-medium text-admin-azure hover:underline"
           >
             Forgot password?
           </button>
@@ -111,8 +111,8 @@ export default function LoginForm({ next }: { next?: string }) {
       </div>
 
       <footer className="flex items-center justify-center gap-1.5 pt-2">
-        <XCircle className="size-3 text-[#8d94a0]" />
-        <p className="font-geist-mono text-[11px] text-[#8d94a0]">
+        <XCircle className="size-3 text-[#7d8c99]" />
+        <p className="font-geist-mono text-[11px] text-[#7d8c99]">
           Protected by 2FA · Need help? Contact IT support
         </p>
       </footer>

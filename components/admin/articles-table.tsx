@@ -18,9 +18,9 @@ type Row = {
 };
 
 const statusPill: Record<string, string> = {
-  published: "bg-[#ebf2ec] text-admin-sage",
+  published: "bg-[#e2f4fd] text-admin-azure",
   underReview: "bg-[#eff6ff] text-[#2563eb]",
-  draft: "bg-[#fdf1ea] text-admin-clay",
+  draft: "bg-[#e7ecf1] text-admin-navy",
 };
 const statusLabel: Record<string, string> = {
   published: "Published",
@@ -45,8 +45,8 @@ export default function ArticlesTable({ posts }: { posts: Row[] }) {
   return (
     <div className="flex flex-col gap-3">
       {selected.size > 0 && (
-        <div className="flex items-center justify-between rounded-lg border border-admin-sage/30 bg-[#ebf2ec] px-4 py-2.5">
-          <p className="text-sm font-semibold text-admin-sage">
+        <div className="flex items-center justify-between rounded-lg border border-admin-azure/30 bg-[#e2f4fd] px-4 py-2.5">
+          <p className="text-sm font-semibold text-admin-azure">
             {selected.size} article{selected.size === 1 ? "" : "s"} selected
           </p>
           <form className="flex items-center gap-3">
@@ -60,7 +60,7 @@ export default function ArticlesTable({ posts }: { posts: Row[] }) {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               aria-label="Change status"
-              className="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-ink outline-none focus:border-admin-sage"
+              className="h-9 rounded-lg border border-gray-200 bg-white px-2 text-sm text-ink outline-none focus:border-admin-azure"
             >
               <option value="published">Published</option>
               <option value="underReview">Under Review</option>
@@ -68,7 +68,7 @@ export default function ArticlesTable({ posts }: { posts: Row[] }) {
             </select>
             <button
               formAction={bulkSetStatus}
-              className="rounded-lg border border-admin-sage px-3 py-1.5 text-xs font-semibold text-admin-sage transition-colors hover:bg-admin-sage hover:text-white"
+              className="rounded-lg border border-admin-azure px-3 py-1.5 text-xs font-semibold text-admin-azure transition-colors hover:bg-admin-azure hover:text-white"
             >
               Change Status
             </button>
@@ -95,7 +95,7 @@ export default function ArticlesTable({ posts }: { posts: Row[] }) {
                     setSelected(allSelected ? new Set() : new Set(posts.map((p) => p.id)))
                   }
                   aria-label="Select all articles"
-                  className="size-4 rounded accent-admin-sage"
+                  className="size-4 rounded accent-admin-azure"
                 />
               </th>
               <th className="px-2 py-3">Thumb</th>
@@ -116,7 +116,7 @@ export default function ArticlesTable({ posts }: { posts: Row[] }) {
                     checked={selected.has(post.id)}
                     onChange={() => toggle(post.id)}
                     aria-label={`Select ${post.title}`}
-                    className="size-4 rounded accent-admin-sage"
+                    className="size-4 rounded accent-admin-azure"
                   />
                 </td>
                 <td className="px-2 py-3">

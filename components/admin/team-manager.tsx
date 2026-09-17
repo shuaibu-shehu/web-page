@@ -10,6 +10,7 @@ import {
   savePublicMember,
   saveRolePermissions,
 } from "@/app/admin/(portal)/team/actions";
+import ImageUploadField from "@/components/admin/image-upload-field";
 import { cn } from "@/lib/utils";
 
 type Member = {
@@ -33,7 +34,7 @@ type PublicMember = {
 };
 
 const inputClass =
-  "h-9 w-full rounded-lg border border-gray-200 bg-white px-2.5 text-sm text-ink outline-none focus:border-admin-sage";
+  "h-9 w-full rounded-lg border border-gray-200 bg-white px-2.5 text-sm text-ink outline-none focus:border-admin-azure";
 
 const PERMISSIONS = ["create", "edit", "publish", "delete"] as const;
 const ROLES = [
@@ -79,7 +80,7 @@ export default function TeamManager({
               setAdding(true);
               setEditing(null);
             }}
-            className="flex items-center gap-2 rounded-lg bg-admin-sage px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
+            className="flex items-center gap-2 rounded-lg bg-admin-azure px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
           >
             <Plus className="size-4" />
             Add Member
@@ -128,7 +129,7 @@ export default function TeamManager({
                         "rounded px-2 py-1 text-xs font-semibold",
                         member.status === "active"
                           ? "bg-[#dcfce7] text-[#15803d]"
-                          : "bg-[#fdf1ea] text-admin-clay",
+                          : "bg-[#e7ecf1] text-admin-navy",
                       )}
                     >
                       {member.status === "active" ? "Active" : "On Leave"}
@@ -192,7 +193,7 @@ export default function TeamManager({
                   <h3 className="truncate font-semibold text-ink">
                     {m.name} <span aria-hidden>{m.flag}</span>
                   </h3>
-                  <p className="text-xs font-semibold uppercase text-admin-sage">{m.role}</p>
+                  <p className="text-xs font-semibold uppercase text-admin-azure">{m.role}</p>
                 </div>
               </div>
               <p className="line-clamp-2 text-xs text-gray-500">{m.bio}</p>
@@ -236,7 +237,7 @@ export default function TeamManager({
               order: publicMembers.length + 1,
             })
           }
-          className="mt-4 flex items-center gap-1.5 rounded-lg border border-dashed border-gray-300 px-3 py-2 text-xs font-semibold text-gray-500 transition-colors hover:border-admin-sage hover:text-admin-sage"
+          className="mt-4 flex items-center gap-1.5 rounded-lg border border-dashed border-gray-300 px-3 py-2 text-xs font-semibold text-gray-500 transition-colors hover:border-admin-azure hover:text-admin-azure"
         >
           <Plus className="size-3.5" />
           Add Team Member
@@ -283,7 +284,7 @@ export default function TeamManager({
                             }))
                           }
                           aria-label={`${role.label} can ${perm}`}
-                          className="size-4 rounded accent-admin-sage"
+                          className="size-4 rounded accent-admin-azure"
                         />
                       </td>
                     ))}
@@ -297,7 +298,7 @@ export default function TeamManager({
           </div>
           <button
             type="submit"
-            className="mt-4 rounded-lg bg-admin-sage px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
+            className="mt-4 rounded-lg bg-admin-azure px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
           >
             Save Permissions
           </button>
@@ -322,7 +323,7 @@ function MemberForm({
         formAction(fd);
         onClose();
       }}
-      className="mb-4 rounded-xl border border-admin-sage/40 bg-[#f4f8f5] p-5"
+      className="mb-4 rounded-xl border border-admin-azure/40 bg-[#f4f8f5] p-5"
     >
       {member && <input type="hidden" name="id" value={member.id} />}
       <div className="mb-3 flex items-center justify-between">
@@ -372,7 +373,7 @@ function MemberForm({
       {state.error && <p className="mt-2 text-xs font-semibold text-red-600">{state.error}</p>}
       <button
         type="submit"
-        className="mt-4 rounded-lg bg-admin-sage px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
+        className="mt-4 rounded-lg bg-admin-azure px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
       >
         {member ? "Save Changes" : "Add Member"}
       </button>
@@ -393,7 +394,7 @@ function PublicMemberForm({
   return (
     <form
       action={formAction}
-      className="mb-4 rounded-xl border border-admin-sage/40 bg-[#f4f8f5] p-5"
+      className="mb-4 rounded-xl border border-admin-azure/40 bg-[#f4f8f5] p-5"
     >
       {member?.id ? <input type="hidden" name="id" value={member.id} /> : null}
       <div className="mb-3 flex items-center justify-between">
@@ -418,13 +419,18 @@ function PublicMemberForm({
           <input name="role" required defaultValue={member?.role} placeholder="e.g. CTO" className={inputClass} />
         </label>
         <label className="flex flex-col gap-1">
-          <span className="text-xs font-semibold text-gray-600">Photo URL</span>
-          <input name="photo" required defaultValue={member?.photo} placeholder="/v2/team-1.png" className={inputClass} />
-        </label>
-        <label className="flex flex-col gap-1">
           <span className="text-xs font-semibold text-gray-600">Order</span>
           <input type="number" name="order" min={1} defaultValue={member?.order ?? 1} className={inputClass} />
         </label>
+        <ImageUploadField
+          name="photo"
+          label="Photo"
+          required
+          defaultValue={member?.photo}
+          hint="Square portrait, at least 400×400px."
+          previewClassName="h-36 w-36"
+          className="col-span-2 md:col-span-1"
+        />
         <label className="col-span-2 flex flex-col gap-1 md:col-span-3">
           <span className="text-xs font-semibold text-gray-600">Bio</span>
           <input name="bio" required defaultValue={member?.bio} className={inputClass} />
@@ -433,7 +439,7 @@ function PublicMemberForm({
       {state.error && <p className="mt-2 text-xs font-semibold text-red-600">{state.error}</p>}
       <button
         type="submit"
-        className="mt-4 rounded-lg bg-admin-sage px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
+        className="mt-4 rounded-lg bg-admin-azure px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3f6a4b]"
       >
         {member?.id ? "Save Changes" : "Add Member"}
       </button>
